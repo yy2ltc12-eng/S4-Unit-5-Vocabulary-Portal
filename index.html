@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form 4 English Thematic Vocabulary Master Portal (Unit 5)</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --success: #00b894;
+            --danger: #d63031;
+            --background: #f1f2f6;
+            --card-bg: #ffffff;
+            --text: #2d3436;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px 15px;
+        }
+
+        .portal-container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 { font-size: 1.6rem; color: var(--primary); margin-bottom: 8px; }
+        .subtitle { font-size: 0.95rem; color: #7f8c8d; margin-bottom: 25px; }
+
+        /* --- Unit Selection Layout --- */
+        .unit-selector-container {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .unit-label { font-size: 0.85rem; font-weight: bold; color: var(--primary); margin-bottom: 8px; display: block; }
+        .unit-grid { display: grid; grid-template-columns: 1fr; gap: 6px; }
+        .unit-tab-btn { background: #fff; border: 2px solid #e2e8f0; border-radius: 8px; padding: 8px 4px; font-size: 0.8rem; font-weight: bold; color: #4a5568; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .unit-tab-btn:hover { border-color: var(--secondary); background: #fdfeff; }
+        .unit-tab-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+        /* --- Profile Screen --- */
+        #login-screen { display: none; }
+        .form-group { text-align: left; margin-bottom: 15px; }
+        .form-group label { font-weight: 600; font-size: 0.9rem; color: #475569; display: block; margin-bottom: 6px; }
+        .form-input { width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 1rem; outline: none; }
+        .form-input:focus { border-color: var(--primary); }
+
+        /* --- Level Selector View --- */
+        #level-screen { display: block; }
+        .student-chip { background: #edf2f7; padding: 8px 15px; border-radius: 30px; font-size: 0.9rem; font-weight: 600; color: #4a5568; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        .edit-profile { font-size: 0.8rem; color: var(--primary); cursor: pointer; text-decoration: underline; }
+        
+        .level-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+        .level-btn:hover { transform: translateY(-2px); border-color: var(--primary); background: #fff; }
+        .level-badge { padding: 6px 12px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; color: #fff; }
+        .badge-basic { background: #00b894; }
+        .badge-inter { background: #0984e3; }
+        .badge-advanced { background: #d63031; }
+
+        /* --- Dashboard Menu View --- */
+        #menu-screen { display: none; }
+        .quiz-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+            max-height: 45vh; overflow-y: auto; padding-right: 5px; margin-bottom: 15px;
+        }
+        .quiz-grid::-webkit-scrollbar { width: 6px; }
+        .quiz-grid::-webkit-scrollbar-thumb { background-color: var(--secondary); border-radius: 4px; }
+        
+        .quiz-card {
+            background: #f8f9fa; border: 2px solid #e2e8f0; border-radius: 12px;
+            padding: 12px; display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; transition: all 0.2s ease; text-align: left;
+        }
+        .quiz-card:hover { border-color: var(--primary); transform: translateY(-2px); background: #fff; }
+        .quiz-status { font-size: 0.85rem; font-weight: bold; color: #94a3b8; padding: 4px 10px; border-radius: 20px; background: #edf2f7; }
+        .quiz-status.completed { color: #ffffff; background: var(--success); }
+
+        /* --- Active Quiz View --- */
+        #quiz-screen { display: none; }
+        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .back-btn { background: #e2e8f0; color: #475569; border: none; padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .back-btn:hover { background: #cbd5e1; }
+        .progress-container { width: 100%; height: 12px; background: #dfe6e9; border-radius: 6px; margin-bottom: 25px; overflow: hidden; }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--secondary), var(--primary)); transition: width 0.3s ease; }
+        .question-counter { font-weight: bold; color: var(--primary); }
+        .category-tag { display: inline-block; padding: 4px 10px; background: #ffeaa7; color: #d63031; border-radius: 5px; font-size: 0.8rem; font-weight: bold; margin-bottom: 15px; }
+        .chinese-hint { font-size: 1.4rem; font-weight: bold; margin-bottom: 15px; color: #2c3e50; }
+        .sentence-box { font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px; color: #4a5568; background: #f8f9fa; padding: 15px; border-left: 4px solid var(--primary); border-radius: 4px; text-align: left; }
+
+        /* Mechanics */
+        .word-slots { display: flex; justify-content: center; gap: 6px; margin-bottom: 25px; flex-wrap: wrap; }
+        .slot { width: 28px; height: 38px; border-bottom: 3px solid #b2bec3; font-size: 1.4rem; font-weight: bold; text-transform: uppercase; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .slot.space { border-bottom: none; width: 15px; }
+        .slot.filled { border-bottom-color: var(--primary); color: var(--primary); }
+        .slot.correct-pulse { border-bottom-color: var(--success); color: var(--success) !important; transform: scale(1.05); }
+        
+        .input-box { width: 100%; padding: 12px; font-size: 1.2rem; border: 2px solid #b2bec3; border-radius: 10px; text-align: center; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; outline: none; transition: all 0.3s; }
+        .input-box:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(108, 92, 231, 0.2); }
+        .input-box.correct-flash { border-color: var(--success); background-color: #e8f5e9; color: #2e7d32; }
+        .input-box.wrong-flash { border-color: var(--danger); background-color: #ffebee; color: #c62828; }
+
+        .choices-container { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px; }
+        .choice-btn { background: #ffffff; border: 2px solid #cbd5e1; padding: 14px; border-radius: 10px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; color: #334155; }
+        .choice-btn:hover { border-color: var(--primary); background: #f8faff; }
+        .choice-btn.correct { background: var(--success) !important; color: white !important; border-color: var(--success) !important; animation: pop 0.3s ease; }
+        .choice-btn.wrong { background: var(--danger) !important; color: white !important; border-color: var(--danger) !important; animation: shake 0.3s ease; }
+
+        .btn { background: var(--primary); color: white; border: none; padding: 12px 25px; font-size: 1rem; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 10px; }
+        .btn:hover { background: #5649c0; }
+        
+        .feedback { margin-top: 15px; font-size: 1.1rem; font-weight: bold; min-height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 10px; color: #fff; transition: all 0.2s; opacity: 0; }
+        .feedback.show { opacity: 1; }
+        .feedback.correct { background-color: var(--success); animation: pop 0.3s ease; }
+        .feedback.wrong { background-color: var(--danger); animation: shake 0.3s ease; }
+
+        /* --- Result View --- */
+        #result-screen { display: none; }
+        .score-text { font-size: 2rem; font-weight: bold; margin: 20px 0; color: var(--success); }
+        #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
+
+        /* --- Dashboard Leaderboard --- */
+        .ranking-section { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 15px; padding: 15px; margin-top: 25px; text-align: left; }
+        .ranking-title { font-weight: bold; color: var(--primary); margin-bottom: 12px; font-size: 1.05rem; display: flex; align-items: center; justify-content: space-between; }
+        .leaderboard-table { width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 0.9rem; }
+        .leaderboard-table th { background: #edf2f7; color: #4a5568; padding: 8px; text-align: left; font-weight: 600; }
+        .leaderboard-table td { padding: 8px; border-bottom: 1px solid #e2e8f0; color: #2d3436; }
+        .leaderboard-table tr:nth-child(even) { background: #f1f5f9; }
+        .rank-badge { display: inline-block; width: 22px; height: 22px; line-height: 22px; text-align: center; border-radius: 50%; font-weight: bold; font-size: 0.8rem; }
+        .rank-1 { background: #ffd700; color: #000; }
+        .rank-2 { background: #c0c0c0; color: #000; }
+        .rank-3 { background: #cd7f32; color: #fff; }
+        
+        .sync-loader { font-size: 0.8rem; color: #94a3b8; font-style: italic; font-weight: normal; }
+        .footer-watermark { margin-top: 25px; font-size: 0.8rem; color: #b2bec3; font-weight: 500; border-top: 1px solid #f1f2f6; padding-top: 12px; }
+
+        @keyframes pop { 0% { transform: scale(0.8); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="portal-container">
+        
+        <div id="login-screen">
+            <h1>Student Profile Initialization</h1>
+            <p class="subtitle">Please enter your metrics to access assignment validation tools</p>
+            <div class="form-group">
+                <label>Class</label>
+                <input type="text" id="student-class" class="form-input" placeholder="e.g. 4D">
+            </div>
+            <div class="form-group">
+                <label>Class Number</label>
+                <input type="number" id="student-number" class="form-input" placeholder="e.g. 15">
+            </div>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="student-name" class="form-input" placeholder="e.g. Tiffany Lau">
+            </div>
+            <button class="btn" onclick="saveStudentProfile()">Enter Vocabulary Portal</button>
+        </div>
+        
+        <div id="level-screen">
+            <h1>Form 4 Thematic Vocabulary Master</h1>
+            <p class="subtitle">Select your difficulty level below to begin</p>
+            
+            <div class="student-chip">
+                <span id="student-display-tag">User: Loading...</span>
+                <span class="edit-profile" onclick="showRegistrationForm()">Switch User</span>
+            </div>
+
+            <div class="unit-selector-container">
+                <span class="unit-label">🎯 Active Vocabulary Target Theme:</span>
+                <div class="unit-grid">
+                    <button class="unit-tab-btn active" id="utab-5" onclick="switchUnit(5)">U5</button>
+                </div>
+                <p id="unit-title-display" style="font-size:0.85rem; font-weight:600; color:#4a5568; margin-top:8px; text-align:center;">Unit 5: Sustainable Development & Global Ecology</p>
+            </div>
+
+            <button class="level-btn" onclick="selectLevel('basic')">
+                <div>
+                    <h3 style="color:#00b894;">Basic Level</h3>
+                    <p style="font-size:0.85rem; color:#7f8c8d; margin-top:4px;">Multiple Choice (Chinese Meaning → English Word)</p>
+                </div>
+                <span class="level-badge badge-basic">Basic</span>
+            </button>
+
+            <button class="level-btn" onclick="selectLevel('intermediate')">
+                <div>
+                    <h3 style="color:#0984e3;">Intermediate Level</h3>
+                    <p style="font-size:0.85rem; color:#7f8c8d; margin-top:4px;">Spelling Slots (Chinese Meaning → Spell Word)</p>
+                </div>
+                <span class="level-badge badge-inter">Intermediate</span>
+            </button>
+
+            <button class="level-btn" onclick="selectLevel('advanced')">
+                <div>
+                    <h3 style="color:#d63031;">Advanced Level</h3>
+                    <p style="font-size:0.85rem; color:#7f8c8d; margin-top:4px;">Context Cloze (Fill in spreadsheet sentence blank)</p>
+                </div>
+                <span class="level-badge badge-advanced">Advanced</span>
+            </button>
+            
+            <div class="ranking-section">
+                <div class="ranking-title">
+                    <span id="leaderboard-title-text">🏆 Unit 5 Live Ranking Dashboard</span>
+                    <span class="sync-loader" id="sync-status">Syncing cloud...</span>
+                </div>
+                <div style="max-height: 200px; overflow-y: auto;">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 12%">Rank</th>
+                                <th style="width: 18%">Class</th>
+                                <th style="width: 45%">Name</th>
+                                <th style="width: 25%">Total Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="menu-screen">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <button class="back-btn" onclick="returnToLevels()">← Change Level</button>
+                <h2 id="dashboard-title" style="font-size:1.1rem; color:var(--primary);">Quizzes</h2>
+            </div>
+            <p class="subtitle" id="dashboard-subtitle">Select an assignment module quiz to start your validation</p>
+            <div class="quiz-grid" id="quiz-grid"></div>
+        </div>
+
+        <div id="quiz-screen">
+            <div class="header-actions">
+                <button class="back-btn" onclick="showMainMenu()">← Exit Quiz</button>
+                <div class="question-counter" id="question-counter">Question 1 / 10</div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            
+            <div class="category-tag" id="category-tag">Category</div>
+            <div class="chinese-hint" id="chinese-hint">中文提示</div>
+            
+            <div class="sentence-box" id="sentence-box" style="display:none;"></div>
+            <div class="word-slots" id="word-slots" style="display:none;"></div>
+            <input type="text" class="input-box" id="input-box" placeholder="Type answer here..." autocomplete="off" style="display:none;">
+            <div class="choices-container" id="choices-container" style="display:none;"></div>
+            
+            <button class="btn" id="submit-btn" onclick="checkAnswer()">Submit Answer</button>
+            
+            <div class="feedback" id="feedback">Status</div>
+        </div>
+
+        <div id="result-screen">
+            <h1>🎉 Quiz Completed! 🎉</h1>
+            <p class="subtitle">Well done on finishing this evaluation module assignment!</p>
+            <div class="score-text" id="final-score-text">Score: 0 / 10</div>
+            <button class="btn" id="result-home-btn" onclick="showMainMenu()">Return to Quizzes</button>
+        </div>
+
+        <div class="footer-watermark">Prepared by Ms Tiffany Lau</div>
+
+    </div>
+
+    <script>
+        // --- GOOGLE SPREADSHEET CONFIGURATION ENDPOINT ---
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzTQsI15oqFEXpwa0pU3f_v65dzcijNeHfek8FHM2HlDcdwqQSsio-xf4SIgY8YdbwO/exec";
+
+        // --- POPULATED UNIT 5 DATABASE: Exactly 130 Items Spanning 13 Sections ---
+        const fullForm4VocabularyDatabase = {
+            5: [
+                // Quiz 1 (1-10)
+                { word: "sustainable", chinese: "永續的/可持續的", cat: "Environmental Concepts", sent: "Using solar panels is a _____ way to generate electricity without destroying resources." },
+                { word: "ecology", chinese: "生態學/生態", cat: "Environmental Concepts", sent: "The industrial chemical spill severely disrupted the local river's fragile _____." },
+                { word: "conservation", chinese: "保護/保存", cat: "Environmental Concepts", sent: "Water _____ programs encourage citizens to turn off taps when brushing teeth." },
+                { word: "biodiversity", chinese: "生物多樣性", cat: "Environmental Concepts", sent: "Rainforest deforestation leads to a drastic drop in global wildlife _____." },
+                { word: "ecosystem", chinese: "生態系統", cat: "Environmental Concepts", sent: "A marine _____ consists of coral reefs, fish, plants, and microorganisms." },
+                { word: "deforestation", chinese: "砍伐森林", cat: "Environmental Hazards", sent: "Massive _____ in South America threatens thousands of exotic bird habitats." },
+                { word: "desertification", chinese: "沙漠化", cat: "Environmental Hazards", sent: "Over-farming turns fertile grass into sand, accelerating rural _____." },
+                { word: "pollution", chinese: "污染", cat: "Environmental Hazards", sent: "Vehicle emissions are a primary contributor to urban atmospheric _____." },
+                { word: "greenhouse gas", chinese: "溫室氣體", cat: "Climate Change", sent: "Carbon dioxide is a major _____ that traps raw thermal heat inside." },
+                { word: "emissions", chinese: "排放物", cat: "Climate Change", sent: "The new global treaty mandates factories to reduce poisonous factory _____." },
+
+                // Quiz 2 (11-20)
+                { word: "renewable energy", chinese: "再生能源", cat: "Green Technology", sent: "Wind turbines and tidal networks supply clean, infinite _____ to towns." },
+                { word: "fossil fuels", chinese: "化石燃料", cat: "Energy Resources", sent: "Burning heavy _____ like coal and oil accelerates global climate trends." },
+                { word: "sustainability", chinese: "永續性", cat: "Environmental Concepts", sent: "The firm redesigned their manufacturing plant with long-term ecological _____." },
+                { word: "carbon footprint", chinese: "碳足跡", cat: "Climate Change", sent: "You can shrink your personal _____ by walking instead of driving cars." },
+                { word: "climate change", chinese: "氣候變遷", cat: "Climate Change", sent: "Severe droughts and rising sea baselines are direct indicators of _____." },
+                { word: "global warming", chinese: "全球變暖", cat: "Climate Change", sent: "Polar ice caps melt quickly due to the acceleration of _____." },
+                { word: "ozone layer", chinese: "臭氧層", cat: "Atmospheric Science", sent: "The upper _____ shields terrestrial organisms from lethal solar radiation." },
+                { word: "depletion", chinese: "消耗/枯竭", cat: "Resource Management", sent: "The rapid _____ of natural groundwater causes extreme agricultural panics." },
+                { word: "endangered species", chinese: "瀕危物種", cat: "Wildlife Protection", sent: "Giant pandas are a protected _____ because few remain in wild habitats." },
+                { word: "extinction", chinese: "絕種/滅絕", cat: "Wildlife Protection", sent: "Hunting and habitat destruction drove the flightless dodo bird to total _____." },
+
+                // Quiz 3 (21-30)
+                { word: "habitat destruction", chinese: "棲息地破壞", cat: "Wildlife Protection", sent: "Building highways across reserves results in severe forest _____." },
+                { word: "reforestation", chinese: "重新造林", cat: "Environmental Solutions", sent: "Volunteers organized a _____ campaign to plant pine trees on hills." },
+                { word: "afforestation", chinese: "造林/植樹造林", cat: "Environmental Solutions", sent: "Converting barren desert borders into dense woodlands requires systematic _____." },
+                { word: "waste management", chinese: "廢棄物管理", cat: "Urban Ecology", sent: "Smart cities utilize advanced robotic separation bins for effective _____." },
+                { word: "recycling", chinese: "回收", cat: "Urban Ecology", sent: "Sorting domestic plastic bottles makes plastic _____ loops much faster." },
+                { word: "biodegradable", chinese: "可生物降解的", cat: "Green Material", sent: "Paper bags are completely _____ and break down naturally within weeks." },
+                { word: "composting", chinese: "堆肥", cat: "Urban Ecology", sent: "Organic kitchen scraps can turn into nutritious plant soil via domestic _____." },
+                { word: "landfill", chinese: "垃圾填埋場", cat: "Urban Ecology", sent: "The municipal _____ will overflow if citizens do not reduce plastic usage." },
+                { word: "incineration", chinese: "焚化", cat: "Urban Ecology", sent: "High-temperature trash _____ produces structural electricity but creates ash particles." },
+                { word: "toxic waste", chinese: "有毒廢料", cat: "Environmental Hazards", sent: "Chemical corporations face massive fines for dumping raw _____ into streams." },
+
+                // Quiz 4 (31-40)
+                { word: "hazardous", chinese: "危險的", cat: "Environmental Hazards", sent: "Discarded radioactive elements pose a highly _____ threat to urban populations." },
+                { word: "pollutant", chinese: "污染物", cat: "Environmental Hazards", sent: "Microplastic beads are a persistent oceanic _____ ingested by marine life." },
+                { word: "contaminate", chinese: "污染/弄髒", cat: "Environmental Hazards", sent: "Leaking fuel pipelines can quickly _____ subsurface drinking water reserves." },
+                { word: "purification", chinese: "淨化", cat: "Environmental Solutions", sent: "Desalination facilities implement advanced reverse osmosis for ocean water _____." },
+                { word: "conservationist", chinese: "自然保護主義者", cat: "Civic Action", sent: "An active _____ spends their life campaigning to protect ancient woods." },
+                { word: "environmentalist", chinese: "環境保護論者", cat: "Civic Action", sent: "The noted _____ hosted an open conference on cutting urban carbon footprints." },
+                { word: "activist", chinese: "激進分子/行動主義者", cat: "Civic Action", sent: "A teenage climate _____ protested outside parliament demanding immediate legislative changes." },
+                { word: "regulation", chinese: "法規/規定", cat: "Policy", sent: "Strict government _____ limits the concentration of exhaust gas from trucks." },
+                { word: "legislation", chinese: "立法/法律", cat: "Policy", sent: "Parliament passed historic ecological _____ banning single-use shopping bags." },
+                { word: "policy", chinese: "政策", cat: "Policy", sent: "The university introduced a zero-paper operational _____ starting this semester." },
+
+                // Quiz 5 (41-50)
+                { word: "alternative energy", chinese: "替代能源", cat: "Green Technology", sent: "Geothermal heat offers a reliable _____ option to conventional coal fuel." },
+                { word: "solar power", chinese: "太陽能", cat: "Green Technology", sent: "Photovoltaic cells absorb direct daylight rays to optimize _____ capture." },
+                { word: "wind energy", chinese: "風能", cat: "Green Technology", sent: "Coastal regions build huge offshore installations to harvest clean _____." },
+                { word: "hydroelectric", chinese: "水力發電的", cat: "Green Technology", sent: "Water flowing through giant mountain dams generates clean _____ power." },
+                { word: "geothermal", chinese: "地熱的", cat: "Green Technology", sent: "Volcanic islands extract deep subterranean steam to run _____ power hubs." },
+                { word: "biomass", chinese: "生物質", cat: "Energy Resources", sent: "Utilizing agricultural straw and organic crop wood for fuel is called _____." },
+                { word: "nuclear energy", chinese: "核能", cat: "Energy Resources", sent: "Atomic fission generates vast electricity but produces long-lasting _____ waste." },
+                { word: "efficient", chinese: "高效率的", cat: "Green Technology", sent: "Smart LED light bulbs are highly _____ and save 80% more juice." },
+                { word: "conservation of energy", chinese: "節約能源", cat: "Resource Management", sent: "Switching off household appliances when vacant promotes the _____." },
+                { word: "consumption", chinese: "消耗量/消費", cat: "Resource Management", sent: "During hot summer periods, domestic electrical _____ spikes dramatically." },
+
+                // Quiz 6 (51-60)
+                { word: "deplete", chinese: "消耗/使枯竭", cat: "Resource Management", sent: "If we continue to fish at this rate, we will completely _____ tuna stocks." },
+                { word: "exploit", chinese: "剝削/利用/開發", cat: "Resource Management", sent: "Mining cartels aggressively _____ pristine arctic fields for rare minerals." },
+                { word: "exploitation", chinese: "開發/開採", cat: "Resource Management", sent: "Unchecked commercial _____ of natural gas fields destabilizes structural faultlines." },
+                { word: "resourceful", chinese: "足智多謀的/資源豐富的", cat: "Human Strategies", sent: "The stranded ecological explorers proved very _____ in finding fresh water." },
+                { word: "scarcity", chinese: "缺乏/不足", cat: "Resource Management", sent: "Severe regional rainfall drop triggers acute agricultural crop _____." },
+                { word: "abundance", chinese: "豐富/充足", cat: "Resource Management", sent: "Tropical rainforest zones exhibit an incredible _____ of unique edible vegetation." },
+                { word: "drought", chinese: "乾旱", cat: "Climate Change", sent: "The profound three-year _____ cracked soil fields and killed farm cattle." },
+                { word: "famine", chinese: " famine", cat: "Global Issues", sent: "Crop failures caused by sudden insect swarms sparked a national _____." },
+                { word: "starvation", chinese: "飢餓", cat: "Global Issues", sent: "Displaced wildlife specimens face absolute _____ when territory zones burn down." },
+                { word: "malnutrition", chinese: "營養不良", cat: "Global Issues", sent: "Impoverished refugee kids suffer from chronic _____ due to low vitamins." },
+
+                // Quiz 7 (61-70)
+                { word: "poverty", chinese: "貧窮", cat: "Global Issues", sent: "Ecology collapse impacts communities trapped in deep operational _____ hardest." },
+                { word: "sanitation", chinese: "環境衛生/衛生系統", cat: "Urban Ecology", sent: "Adequate plumbing and sewer separation drastically improve public _____ levels." },
+                { word: "hygiene", chinese: "衛生", cat: "Urban Ecology", sent: "Maintaining personal water _____ prevents dangerous waterborne parasites from spreading." },
+                { word: "contamination", chinese: "污染", cat: "Environmental Hazards", sent: "Industrial radiation leaks caused widespread ecological food supply _____." },
+                { word: "disaster", chinese: "災害/災難", cat: "Climate Change", sent: "The sudden categoric super-typhoon was an absolute climate _____." },
+                { word: "catastrophe", chinese: "大災難", cat: "Climate Change", sent: "A massive asteroid impact would induce a global ecological _____." },
+                { word: "devastation", chinese: "毀滅/破壞", cat: "Climate Change", sent: "Wildfires left behind a trail of absolute forest _____ and ash." },
+                { word: "vulnerability", chinese: "脆弱性", cat: "Climate Change", sent: "Low-lying coastal towns face high _____ from rising oceanic sea baselines." },
+                { word: "resilience", chinese: "韌性/彈性", cat: "Human Strategies", sent: "Mangrove forests show incredible environmental _____ against ocean tidal waves." },
+                { word: "adaptation", chinese: "適應", cat: "Human Strategies", sent: "Building elevated stilt houses is an effective climate _____ strategy." },
+
+                // Quiz 8 (71-80)
+                { word: "mitigation", chinese: "緩和/減輕", cat: "Human Strategies", sent: "Planting rooftop gardens serves as an urban heat island _____ tactic." },
+                { word: "greenhouse effect", chinese: "溫室效應", cat: "Climate Change", sent: "The natural _____ keeps earth warm, but industrial gases intensify it." },
+                { word: "carbon dioxide", chinese: "二氧化碳", cat: "Atmospheric Science", sent: "Trees absorb heavy atmospheric _____ and release refreshing breathable oxygen." },
+                { word: "methane", chinese: "甲烷", cat: "Atmospheric Science", sent: "Decomposing landfill trash and cattle farming generate volatile _____ gas." },
+                { word: "atmosphere", chinese: "大氣/大氣層", cat: "Atmospheric Science", sent: "Poisonous factory soot particles accumulate inside our upper breathing _____." },
+                { word: "biosphere", chinese: "生物圈", cat: "Environmental Concepts", sent: "All living organisms and supporting habitats together form the earth's _____." },
+                { word: "geosphere", chinese: "地圈", cat: "Atmospheric Science", sent: "The structural rocky crust and mantle layers constitute the planet's _____." },
+                { word: "hydrosphere", chinese: "水圈", cat: "Atmospheric Science", sent: "Oceans, vapor clouds, and deep ice sheets comprise the global _____." },
+                { word: "gladier", chinese: "冰河/冰川", cat: "Climate Change", sent: "Warmer global seasons cause the polar mountain _____ to retreat rapidly." },
+                { word: "ice cap", chinese: "冰帽/冰原", cat: "Climate Change", sent: "The greenland _____ is shedding massive gigatons of pure ice monthly." },
+
+                // Quiz 9 (81-90)
+                { word: "sea level rise", chinese: "海平面上升", cat: "Climate Change", sent: "Island nations face complete submersion due to accelerated _____." },
+                { word: "coastal erosion", chinese: "海岸侵蝕", cat: "Geological Hazards", sent: "Violent ocean storms wash away sandy beaches, causing severe _____." },
+                { word: "acid rain", chinese: "酸雨", cat: "Environmental Hazards", sent: "Sulfur emissions mix with clouds to produce destructive, corrosive _____." },
+                { word: "smog", chinese: "煙霧/霧霾", cat: "Environmental Hazards", sent: "Heavy traffic combined with low winds creates a thick layer of urban _____." },
+                { word: "air quality", chinese: "空氣品質", cat: "Environmental Concepts", sent: "Masks are recommended when the local metropolitan _____ index drops." },
+                { word: "degrade", chinese: "降解/退化", cat: "Environmental Hazards", sent: "Chemical detergents significantly _____ soil quality over prolonged durations." },
+                { word: "degradation", chinese: "退化/降格", cat: "Environmental Hazards", sent: "Overgrazing leads to rapid topsoil _____ across dry savanna ranges." },
+                { word: "unprecedented", chinese: "史無前例的", cat: "Global Issues", sent: "The continent is experiencing an _____ heatwave breaking historic records." },
+                { word: "irreversible", chinese: "不可逆轉的", cat: "Global Issues", sent: "Losing endemic rainforest species causes total, _____ biodiversity loss." },
+                { word: "tipping point", chinese: "臨界點", cat: "Climate Change", sent: "Scientists fear the arctic thaw has crossed a dangerous climate _____." },
+
+                // Quiz 10 (91-100)
+                { word: "carbon sequestration", chinese: "碳固存", cat: "Green Technology", sent: "Deep subterranean stone injection allows for permanent industrial _____." },
+                { word: "sustainable development", chinese: "永續發展", cat: "Environmental Concepts", sent: "UN goals promote economic growth aligned with global _____ protocols." },
+                { word: "renewable resource", chinese: "再生資源", cat: "Energy Resources", sent: "Timber from certified forests is a highly manageable _____." },
+                { word: "non renewable", chinese: "不可再生的", cat: "Energy Resources", sent: "Petroleum oil is a _____ fuel that takes millions of years to form." },
+                { word: "fossilization", chinese: "化石化", cat: "Energy Resources", sent: "Ancient prehistoric vegetative decomposition involves gradual organic _____ processes." },
+                { word: "carbon cycle", chinese: "碳循環", cat: "Environmental Concepts", sent: "Photosynthesis and animal respiration maintain equilibrium in the global _____." },
+                { word: "nitrogen cycle", chinese: "氮循環", cat: "Environmental Concepts", sent: "Soil bacteria convert atmospheric chemicals to support plants in the _____." },
+                { word: "water cycle", chinese: "水循環", cat: "Environmental Concepts", sent: "Evaporation, condensation, and rain are key parts of the terrestrial _____." },
+                { word: "precipitation", chinese: "降水/降雨量", cat: "Atmospheric Science", sent: "Metereologists predict a high level of winter _____ across mountain zones." },
+                { word: "evaporation", chinese: "蒸發", cat: "Atmospheric Science", sent: "Intense solar rays accelerate surface lake water _____ during dry summer spells." },
+
+                // Quiz 11 (101-110)
+                { word: "condensation", chinese: "凝結", cat: "Atmospheric Science", sent: "Atmospheric cooling induces moisture _____ on grass tips overnight." },
+                { word: "transpiration", chinese: "蒸騰作用", cat: "Atmospheric Science", sent: "Leaf stomata release pure moisture vapors into clouds via agricultural _____." },
+                { word: "runoff", chinese: "逕流/流失的水", cat: "Geological Hazards", sent: "Fertilizer agricultural _____ contaminates nearby lakes, creating algal blooms." },
+                { word: "groundwater", chinese: "地下水", cat: "Resource Management", sent: "Rural farming populations dig deep boreholes to draw clean _____ reserves." },
+                { word: "aquifer", chinese: "含水層", cat: "Resource Management", sent: "Over-pumping drains the subterranean rock _____, cracking empty topsoil beds." },
+                { word: "irrigation", chinese: "灌溉", cat: "Human Strategies", sent: "Drip _____ channels precise water amounts to dry desert fruit trees." },
+                { word: "organic farming", chinese: "有機農作", cat: "Human Strategies", sent: "Avoiding chemical sprays and toxic pesticides is foundational to _____." },
+                { word: "pesticide", chinese: "殺蟲劑", cat: "Environmental Hazards", sent: "Excessive industrial _____ use accidentally wipes out vital honeybee swarms." },
+                { word: "herbicide", chinese: "除草劑", cat: "Environmental Hazards", sent: "The farmer sprayed a strong toxic _____ to eliminate invasive weed patches." },
+                { word: "fertilizer", chinese: "肥料", cat: "Environmental Hazards", sent: "Nitrogen-rich synthetic _____ boosts corn growth but triggers river damage." },
+
+                // Quiz 12 (111-120)
+                { word: "eutrophication", chinese: "優養化", cat: "Environmental Hazards", sent: "Chemical runoffs cause river aquatic oxygen death via rapid water _____." },
+                { word: "algal bloom", chinese: "藻華/藻類暴長", cat: "Environmental Hazards", sent: "A thick green _____ blocks essential sunlight from entering deep lake zones." },
+                { word: "marine life", chinese: "海洋生物", cat: "Wildlife Protection", sent: "Discarded ocean plastic netting entangles and kills sensitive local _____." },
+                { word: "overfishing", chinese: "過度捕撈", cat: "Wildlife Protection", sent: "Giant commercial trawlers trigger catastrophic oceanic collapse through _____." },
+                { word: "bycatch", chinese: "副漁獲物/意外捕獲物", cat: "Wildlife Protection", sent: "Dolphins caught inside industrial tuna nets are classified as tragic waste _____." },
+                { word: "poaching", chinese: "偷獵", cat: "Wildlife Protection", sent: "Illegal ivory hunting and rhino horn _____ push wildlife to extinction." },
+                { word: "wildlife trade", chinese: "野生動物貿易", cat: "Wildlife Protection", sent: "International police enforce severe laws to shut down black market _____ loops." },
+                { word: "sanctuary", chinese: "避難所/保護區", cat: "Wildlife Protection", sent: "The injured leopards were brought safely to a secure forest _____." },
+                { word: "reserve", chinese: "保護區/儲備", cat: "Wildlife Protection", sent: "A certified national nature _____ prohibits tourist logging or commercial hunting." },
+                { word: "national park", chinese: "國家公園", cat: "Wildlife Protection", sent: "Rangers patrol the vast wilderness _____ to safeguard wild animals." },
+
+                // Quiz 13 (121-130)
+                { word: "ecotourism", chinese: "生態旅遊", cat: "Civic Action", sent: "Low-impact travel options like nature hikes promote sustainable local _____." },
+                { word: "carbon tax", chinese: "碳稅", cat: "Policy", sent: "The government imposes a stiff corporate _____ on dirty diesel operations." },
+                { word: "cap and trade", chinese: "總量管制與交易", cat: "Policy", sent: "Industrial corporations swap factory emission permits using a _____ system." },
+                { word: "subsidize", chinese: "補助/資助", cat: "Policy", sent: "Governments actively _____ residential electric car purchases with cash credits." },
+                { word: "subsidy", chinese: "補貼/津貼", cat: "Policy", sent: "The solar installation grant program offers a generous clean green _____." },
+                { word: "green certification", chinese: "綠色認證", cat: "Policy", sent: "Skyscrapers achieve elite status by earning a formal architectural _____." },
+                { word: "eco friendly", chinese: "環保的", cat: "Green Material", sent: "Bamboo toothbrushes are a superb, highly _____ option to plastic." },
+                { word: "zero waste", chinese: "零浪費", cat: "Urban Ecology", sent: "The eco-hotel implements a total packaging ban to achieve an absolute _____ goal." },
+                { word: "circular economy", chinese: "循環經濟", cat: "Environmental Concepts", sent: "Manufacturing systems that recycle old products endlessly follow a _____ design." },
+                { word: "consumerism", chinese: "消費主義", cat: "Global Issues", sent: "Hyper-fast fashion trends and excessive global _____ fill trash landfills." }
+            ]
+        };
+
+        const unitTitles = { 5: "Unit 5: Sustainable Development & Global Ecology" };
+
+        let studentProfile = { class: '', number: '', name: '' };
+        let activeSelectedUnit = 5; 
+        let currentLevel = 'basic';
+        let activeQuestionsPool = [];
+        let currentQuizIndex = 1; 
+        let questionIndex = 0;
+        let scoreTracker = 0;
+        let selectedChoice = null;
+
+        window.onload = function() {
+            loadStudentProfile();
+        };
+
+        function loadStudentProfile() {
+            const stored = localStorage.getItem('f4_student_profile_v5_name');
+            if (stored) {
+                studentProfile = JSON.parse(stored);
+                document.getElementById('student-display-tag').innerText = `${studentProfile.class} (${studentProfile.number}) - ${studentProfile.name}`;
+                showScreen('level-screen');
+                fetchLeaderboardData();
+            } else {
+                showRegistrationForm();
+            }
+        }
+
+        function showRegistrationForm() {
+            document.getElementById('student-class').value = "4D"; 
+            document.getElementById('student-number').value = "";
+            document.getElementById('student-name').value = "";
+            showScreen('login-screen');
+        }
+
+        function saveStudentProfile() {
+            const cls = document.getElementById('student-class').value.trim().toUpperCase();
+            const num = document.getElementById('student-number').value.trim();
+            const nm = document.getElementById('student-name').value.trim();
+
+            if (!cls || !num || !nm) {
+                alert('All structural configuration metrics (Class, No., Name) must be filled.');
+                return;
+            }
+
+            studentProfile = { class: cls, number: num, name: nm };
+            localStorage.setItem('f4_student_profile_v5_name', JSON.stringify(studentProfile));
+            document.getElementById('student-display-tag').innerText = `${cls} (${num}) - ${nm}`;
+            showScreen('level-screen');
+            fetchLeaderboardData();
+        }
+
+        function switchUnit(unitId) {
+            activeSelectedUnit = unitId;
+            document.getElementById('unit-title-display').innerText = unitTitles[unitId];
+            fetchLeaderboardData();
+        }
+
+        function showScreen(id) {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('level-screen').style.display = 'none';
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function selectLevel(lvl) {
+            currentLevel = lvl;
+            showMainMenu();
+        }
+
+        function showMainMenu() {
+            showScreen('menu-screen');
+            const levelLabel = currentLevel.charAt(0).toUpperCase() + currentLevel.slice(1);
+            document.getElementById('dashboard-title').innerText = `Unit ${activeSelectedUnit} - ${levelLabel}`;
+            
+            const grid = document.getElementById('quiz-grid');
+            grid.innerHTML = '';
+
+            for (let q = 1; q <= 20; q++) {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                card.onclick = () => startQuizModule(q);
+                
+                let rangeText = `Vocab Section Quiz ${q}`;
+                if (activeSelectedUnit === 5) {
+                    if (q < 14) rangeText = `Vocab ${((q - 1) * 10) + 1} - ${q * 10}`;
+                    else if (q === 14) rangeText = "Random Selection Matrix";
+                    else rangeText = `Cumulative Review Set ${q}`;
+                }
+
+                card.innerHTML = `
+                    <div>
+                        <h4 style="color:var(--text); font-size:0.95rem;">Quiz ${q}</h4>
+                        <p style="font-size:0.75rem; color:#7f8c8d; margin-top:2px;">${rangeText}</p>
+                    </div>
+                    <span class="quiz-status" id="status-u${activeSelectedUnit}-l${currentLevel}-q${q}">Start</span>
+                `;
+                grid.appendChild(card);
+                
+                const saveKey = `score_name_u${activeSelectedUnit}_l${currentLevel}_q${q}`;
+                const savedScore = localStorage.getItem(saveKey);
+                if (savedScore !== null) {
+                    const statusTag = card.querySelector('.quiz-status');
+                    statusTag.className = "quiz-status completed";
+                    statusTag.innerText = `${savedScore}/10`;
+                }
+            }
+        }
+
+        function returnToLevels() {
+            showScreen('level-screen');
+            fetchLeaderboardData();
+        }
+
+        function getQuizQuestions(unit, level, quizNum) {
+            const fullPool = fullForm4VocabularyDatabase[unit] || [];
+            if (fullPool.length === 0) return [];
+
+            let selectedSlice = [];
+            if (unit === 5) {
+                if (quizNum < 14) {
+                    // Quizzes 1 to 13 map out exactly 10 structured elements sequentially
+                    const startIndex = (quizNum - 1) * 10;
+                    selectedSlice = fullPool.slice(startIndex, startIndex + 10);
+                } else {
+                    // Quizzes 14 to 20 pull 10 random content arrays out of the full 130 list
+                    selectedSlice = shuffleArray(fullPool).slice(0, 10);
+                }
+            } else {
+                selectedSlice = fullPool.slice(0, 10);
+            }
+
+            // Safety check fallback logic
+            while (selectedSlice.length < 10 && fullPool.length > 0) {
+                const randomItem = fullPool[Math.floor(Math.random() * fullPool.length)];
+                if(!selectedSlice.includes(randomItem)) selectedSlice.push(randomItem);
+            }
+            return [...selectedSlice].slice(0, 10);
+        }
+
+        function startQuizModule(quizNum) {
+            currentQuizIndex = quizNum;
+            questionIndex = 0;
+            scoreTracker = 0;
+            activeQuestionsPool = getQuizQuestions(activeSelectedUnit, currentLevel, quizNum);
+            
+            if (activeQuestionsPool.length === 0) {
+                alert("Selected question set allocation array is unpopulated.");
+                return;
+            }
+            showScreen('quiz-screen');
+            loadActiveQuestion();
+        }
+
+        function loadActiveQuestion() {
+            selectedChoice = null;
+            const feedback = document.getElementById('feedback');
+            feedback.className = "feedback";
+            feedback.innerText = "";
+            
+            const inputBox = document.getElementById('input-box');
+            inputBox.className = "input-box";
+            inputBox.disabled = false;
+            inputBox.value = '';
+
+            document.getElementById('submit-btn').innerText = "Submit Answer";
+            document.getElementById('submit-btn').style.background = "var(--primary)";
+            document.getElementById('submit-btn').onclick = checkAnswer;
+
+            const total = activeQuestionsPool.length;
+            document.getElementById('question-counter').innerText = `Quiz ${currentQuizIndex} - Question ${questionIndex + 1} / ${total}`;
+            document.getElementById('progress-bar').style.width = `${((questionIndex) / total) * 100}%`;
+
+            const current = activeQuestionsPool[questionIndex];
+            document.getElementById('category-tag').innerText = current.cat;
+            
+            const chineseHint = document.getElementById('chinese-hint');
+            const sentenceBox = document.getElementById('sentence-box');
+            const wordSlots = document.getElementById('word-slots');
+            const choicesContainer = document.getElementById('choices-container');
+
+            chineseHint.style.display = 'none';
+            sentenceBox.style.display = 'none';
+            wordSlots.style.display = 'none';
+            inputBox.style.display = 'none';
+            choicesContainer.style.display = 'none';
+
+            if (currentLevel === 'basic') {
+                chineseHint.style.display = 'block';
+                chineseHint.innerText = `中文意思: ${current.chinese}`;
+                choicesContainer.style.display = 'grid';
+                generateMultipleChoices(current);
+            } else if (currentLevel === 'intermediate') {
+                chineseHint.style.display = 'block';
+                chineseHint.innerText = `中文意思: ${current.chinese}`;
+                wordSlots.style.display = 'flex';
+                inputBox.style.display = 'block';
+                generateSpellingSlots(current.word);
+                inputBox.focus();
+            } else if (currentLevel === 'advanced') {
+                sentenceBox.style.display = 'block';
+                sentenceBox.innerText = current.sent;
+                inputBox.style.display = 'block';
+                inputBox.focus();
+            }
+        }
+
+        function generateMultipleChoices(currentObj) {
+            const container = document.getElementById('choices-container');
+            container.innerHTML = '';
+            let choices = [currentObj.word];
+            let pool = (fullForm4VocabularyDatabase[activeSelectedUnit] || []).filter(v => v.word !== currentObj.word);
+            pool = shuffleArray(pool);
+            
+            for (let i = 0; i < Math.min(3, pool.length); i++) {
+                choices.push(pool[i].word);
+            }
+            choices = shuffleArray(choices);
+
+            choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = 'choice-btn';
+                btn.innerText = choice;
+                btn.onclick = () => {
+                    container.querySelectorAll('.choice-btn').forEach(b => {
+                        b.style.borderColor = '#cbd5e1';
+                        b.style.backgroundColor = '#ffffff';
+                    });
+                    btn.style.borderColor = 'var(--primary)';
+                    btn.style.backgroundColor = '#f0edff';
+                    selectedChoice = choice;
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function generateSpellingSlots(word) {
+            const container = document.getElementById('word-slots');
+            container.innerHTML = '';
+            const cleanWord = word.replace(/\s+/g, ' '); 
+            
+            for (let i = 0; i < cleanWord.length; i++) {
+                const slot = document.createElement('div');
+                if ([' ', '.', '/', '—', '-'].includes(cleanWord[i])) {
+                    slot.className = 'slot space';
+                    slot.innerText = cleanWord[i] !== ' ' ? cleanWord[i] : '';
+                } else if (i === 0) {
+                    slot.className = 'slot filled';
+                    slot.innerText = cleanWord[0];
+                } else {
+                    slot.className = 'slot';
+                }
+                container.appendChild(slot);
+            }
+
+            const input = document.getElementById('input-box');
+            input.oninput = () => {
+                const val = input.value.toUpperCase();
+                const slots = container.querySelectorAll('.slot:not(.space)');
+                let userCharIdx = 0;
+                for (let k = 1; k < cleanWord.length; k++) {
+                    if ([' ', '.', '/', '—', '-'].includes(cleanWord[k])) continue;
+                    const slotNode = slots[userCharIdx + 1]; 
+                    if (slotNode) {
+                        if (val[userCharIdx]) {
+                            slotNode.innerText = val[userCharIdx];
+                            slotNode.classList.add('filled');
+                        } else {
+                            slotNode.innerText = '';
+                            slotNode.classList.remove('filled');
+                        }
+                    }
+                    userCharIdx++;
+                }
+            };
+        }
+
+        function checkAnswer() {
+            const current = activeQuestionsPool[questionIndex];
+            const feedback = document.getElementById('feedback');
+            const inputBox = document.getElementById('input-box');
+            let isCorrect = false;
+            let targetCorrectString = current.word.trim();
+
+            if (currentLevel === 'basic') {
+                if (!selectedChoice) {
+                    alert('Please select an option.');
+                    return;
+                }
+                isCorrect = (selectedChoice.toLowerCase().trim() === targetCorrectString.toLowerCase());
+            } else if (currentLevel === 'intermediate') {
+                const userVal = inputBox.value.trim().toLowerCase();
+                const remainderCorrect = targetCorrectString.substring(1).toLowerCase().replace(/[\s\.\/—\-]/g, '');
+                isCorrect = (userVal.replace(/[\s\.\/—\-]/g, '') === remainderCorrect);
+            } else if (currentLevel === 'advanced') {
+                const userVal = inputBox.value.trim().toLowerCase();
+                isCorrect = (userVal.replace(/[\s\.\/—\-]/g, '') === targetCorrectString.toLowerCase().replace(/[\s\.\/—\-]/g, ''));
+            }
+
+            feedback.classList.add('show');
+            if (isCorrect) {
+                scoreTracker++; 
+                feedback.innerText = "✓ Brilliant! Correct Answer (+1 Mark)";
+                feedback.className = "feedback show correct";
+                if (currentLevel === 'basic') {
+                    document.querySelectorAll('.choice-btn').forEach(b => {
+                        if (b.innerText.toLowerCase().trim() === targetCorrectString.toLowerCase()) b.classList.add('correct');
+                    });
+                } else {
+                    inputBox.classList.add('correct-flash');
+                    inputBox.disabled = true;
+                    document.querySelectorAll('.word-slots .slot').forEach(s => s.classList.add('correct-pulse'));
+                }
+            } else {
+                feedback.innerText = `✗ Incorrect (Answer: ${targetCorrectString})`;
+                feedback.className = "feedback show wrong";
+                if (currentLevel === 'basic') {
+                    document.querySelectorAll('.choice-btn').forEach(b => {
+                        if (b.innerText.toLowerCase().trim() === targetCorrectString.toLowerCase()) b.classList.add('correct');
+                        if (selectedChoice && b.innerText === selectedChoice) b.classList.add('wrong');
+                    });
+                } else {
+                    inputBox.classList.add('wrong-flash');
+                    inputBox.disabled = true;
+                }
+            }
+
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.innerText = "Next Question →";
+            submitBtn.style.background = "#4a5568";
+            submitBtn.onclick = advanceQuestionStep;
+        }
+
+        function advanceQuestionStep() {
+            questionIndex++;
+            if (questionIndex < activeQuestionsPool.length) {
+                loadActiveQuestion();
+            } else {
+                completeQuizModuleSession();
+            }
+        }
+
+        function completeQuizModuleSession() {
+            showScreen('result-screen');
+            document.getElementById('progress-bar').style.width = `100%`;
+            document.getElementById('final-score-text').innerText = `Score: ${scoreTracker} / 10`;
+            
+            const saveKey = `score_name_u${activeSelectedUnit}_l${currentLevel}_q${currentQuizIndex}`;
+            localStorage.setItem(saveKey, scoreTracker);
+
+            if (scoreTracker === 10) triggerConfettiEffect();
+            transmitCloudData(scoreTracker);
+        }
+
+        // --- CLOUD LIVE SYNCHRONIZATION ALGORITHMS ---
+        function transmitCloudData(score) {
+            const syncStatus = document.getElementById('sync-status');
+            syncStatus.innerText = "Uploading marks to Google Drive...";
+
+            const payload = {
+                class: studentProfile.class,
+                number: studentProfile.number,
+                name: studentProfile.name,
+                unit: activeSelectedUnit,
+                level: currentLevel,
+                quiz: currentQuizIndex,
+                marks: score
+            };
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(() => { syncStatus.innerText = "Marks synced to Google Sheet!"; })
+            .catch(err => { 
+                console.error(err);
+                syncStatus.innerText = "Sync failure. Saved locally."; 
+            });
+        }
+
+        function fetchLeaderboardData() {
+            const syncStatus = document.getElementById('sync-status');
+            
+            document.getElementById('leaderboard-title-text').innerText = `🏆 Unit ${activeSelectedUnit} Live Leaderboard`;
+            syncStatus.innerText = "Syncing cloud database...";
+
+            fetch(GOOGLE_SCRIPT_URL)
+            .then(res => res.json())
+            .then(data => {
+                syncStatus.innerText = "Live records synced successfully";
+                renderAnonymizedDashboard(data);
+            })
+            .catch(err => {
+                console.error(err);
+                syncStatus.innerText = "Failed to sync. Displaying cached rows.";
+                renderAnonymizedDashboard([]);
+            });
+        }
+
+        function renderAnonymizedDashboard(recordsList) {
+            const leaderboardBody = document.getElementById('leaderboard-body');
+            leaderboardBody.innerHTML = '';
+
+            // Filter data array for selected Unit only
+            const unitFiltered = recordsList.filter(r => parseInt(r.unit) === activeSelectedUnit);
+
+            // Calculate cumulative tracking matrices
+            const studentScoresMap = {};
+
+            unitFiltered.forEach(rec => {
+                const uniqueKey = `${rec.class}_#_${rec.number}_#_${rec.name}`;
+                const quizKey = `u${rec.unit}_l${rec.level}_q${rec.quiz}`;
+                
+                if (!studentScoresMap[uniqueKey]) {
+                    studentScoresMap[uniqueKey] = {
+                        class: rec.class,
+                        number: rec.number,
+                        name: rec.name || `No. ${rec.number}`,
+                        quizzesTracked: {}
+                    };
+                }
+                
+                if (!studentScoresMap[uniqueKey].quizzesTracked[quizKey] || rec.marks > studentScoresMap[uniqueKey].quizzesTracked[quizKey]) {
+                    studentScoresMap[uniqueKey].quizzesTracked[quizKey] = parseInt(rec.marks);
+                }
+            });
+
+            // Convert map to sortable arrays
+            const rankedArr = Object.values(studentScoresMap).map(student => {
+                let cumulativeTotal = 0;
+                for (let key in student.quizzesTracked) {
+                    cumulativeTotal += student.quizzesTracked[key];
+                }
+                return {
+                    class: student.class,
+                    number: student.number,
+                    name: student.name,
+                    totalMarks: cumulativeTotal
+                };
+            });
+
+            // Local storage fallback injector
+            if (studentProfile.class && !rankedArr.find(s => s.class === studentProfile.class && s.name === studentProfile.name)) {
+                let localCumulative = 0;
+                for (let k = 0; k < localStorage.length; k++) {
+                    const lKey = localStorage.key(k);
+                    if (lKey.startsWith(`score_name_u${activeSelectedUnit}_`)) {
+                        localCumulative += parseInt(localStorage.getItem(lKey) || 0);
+                    }
+                }
+                if (localCumulative > 0) {
+                    rankedArr.push({ class: studentProfile.class, number: studentProfile.number, name: studentProfile.name, totalMarks: localCumulative });
+                }
+            }
+
+            rankedArr.sort((a, b) => b.totalMarks - a.totalMarks);
+
+            if (rankedArr.length === 0) {
+                leaderboardBody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#94a3b8;">No marks submitted for Unit 5 yet.</td></tr>`;
+                return;
+            }
+
+            rankedArr.forEach((row, idx) => {
+                const tr = document.createElement('tr');
+                let rBadge = idx + 1;
+                if (idx === 0) rBadge = `<span class="rank-badge rank-1">1</span>`;
+                else if (idx === 1) rBadge = `<span class="rank-badge rank-2">2</span>`;
+                else if (idx === 2) rBadge = `<span class="rank-badge rank-3">3</span>`;
+                
+                tr.innerHTML = `
+                    <td>${rBadge}</td>
+                    <td style="font-weight:600; color:var(--text);">${row.class}</td>
+                    <td style="text-align:left; padding-left:10px;">${row.name} <span style="font-size:0.75rem; color:#94a3b8;">(#${row.number})</span></td>
+                    <td style="font-weight:bold; color:var(--primary); text-align:right; padding-right:10px;">${row.totalMarks} Mks</td>
+                `;
+                leaderboardBody.appendChild(tr);
+            });
+        }
+
+        function shuffleArray(arr) {
+            let copied = [...arr];
+            for (let i = copied.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copied[i], copied[j]] = [copied[j], copied[i]];
+            }
+            return copied;
+        }
+
+        // --- VISUAL EFFECT FRAMEWORKS ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function triggerConfettiEffect() {
+            for (let i = 0; i < 70; i++) {
+                particles.push({
+                    x: canvas.width / 2, y: canvas.height / 2 - 40,
+                    size: Math.random() * 6 + 6,
+                    color: `hsl(${Math.random() * 360}, 85%, 55%)`,
+                    speedX: (Math.random() - 0.5) * 14,
+                    speedY: (Math.random() - 0.7) * 16,
+                    gravity: 0.35, rotation: Math.random() * 360,
+                    rotationSpeed: (Math.random() - 0.5) * 8
+                });
+            }
+        }
+
+        function updateConfettiEngineLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, index) => {
+                p.speedY += p.gravity; p.x += p.speedX; p.y += p.speedY; p.rotation += p.rotationSpeed;
+                ctx.save(); ctx.translate(p.x, p.y); ctx.rotate((p.rotation * Math.PI) / 180);
+                ctx.fillStyle = p.color; ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size); ctx.restore();
+                if (p.y > canvas.height) particles.splice(index, 1);
+            });
+            requestAnimationFrame(updateConfettiEngineLoop);
+        }
+        updateConfettiEngineLoop();
+    </script>
+</body>
+</html>
