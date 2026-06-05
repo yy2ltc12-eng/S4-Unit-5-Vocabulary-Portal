@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form 4 English Thematic Vocabulary Master Portal (Unit 5)</title>
+    <title>Form 4 English Thematic Vocabulary Master Portal - Unit 5</title>
     <style>
         :root {
             --primary: #6c5ce7;
@@ -212,7 +212,7 @@
                 <div class="unit-grid">
                     <button class="unit-tab-btn active" id="utab-5" onclick="switchUnit(5)">U5</button>
                 </div>
-                <p id="unit-title-display" style="font-size:0.85rem; font-weight:600; color:#4a5568; margin-top:8px; text-align:center;">Unit 5: Sustainable Development & Global Ecology</p>
+                <p id="unit-title-display" style="font-size:0.85rem; font-weight:600; color:#4a5568; margin-top:8px; text-align:center;">Unit 5: Cultures of the World</p>
             </div>
 
             <button class="level-btn" onclick="selectLevel('basic')">
@@ -305,171 +305,233 @@
     </div>
 
     <script>
-        // --- GOOGLE SPREADSHEET CONFIGURATION ENDPOINT ---
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzTQsI15oqFEXpwa0pU3f_v65dzcijNeHfek8FHM2HlDcdwqQSsio-xf4SIgY8YdbwO/exec";
 
-        // --- POPULATED UNIT 5 DATABASE: Exactly 130 Items Spanning 13 Sections ---
+        // Unit 5 Thematic Vocabulary Dataset parsed from Cultures_of_the_World_Vocabulary_Exercise.xlsx
         const fullForm4VocabularyDatabase = {
             5: [
-                // Quiz 1 (1-10)
-                { word: "sustainable", chinese: "永續的/可持續的", cat: "Environmental Concepts", sent: "Using solar panels is a _____ way to generate electricity without destroying resources." },
-                { word: "ecology", chinese: "生態學/生態", cat: "Environmental Concepts", sent: "The industrial chemical spill severely disrupted the local river's fragile _____." },
-                { word: "conservation", chinese: "保護/保存", cat: "Environmental Concepts", sent: "Water _____ programs encourage citizens to turn off taps when brushing teeth." },
-                { word: "biodiversity", chinese: "生物多樣性", cat: "Environmental Concepts", sent: "Rainforest deforestation leads to a drastic drop in global wildlife _____." },
-                { word: "ecosystem", chinese: "生態系統", cat: "Environmental Concepts", sent: "A marine _____ consists of coral reefs, fish, plants, and microorganisms." },
-                { word: "deforestation", chinese: "砍伐森林", cat: "Environmental Hazards", sent: "Massive _____ in South America threatens thousands of exotic bird habitats." },
-                { word: "desertification", chinese: "沙漠化", cat: "Environmental Hazards", sent: "Over-farming turns fertile grass into sand, accelerating rural _____." },
-                { word: "pollution", chinese: "污染", cat: "Environmental Hazards", sent: "Vehicle emissions are a primary contributor to urban atmospheric _____." },
-                { word: "greenhouse gas", chinese: "溫室氣體", cat: "Climate Change", sent: "Carbon dioxide is a major _____ that traps raw thermal heat inside." },
-                { word: "emissions", chinese: "排放物", cat: "Climate Change", sent: "The new global treaty mandates factories to reduce poisonous factory _____." },
-
-                // Quiz 2 (11-20)
-                { word: "renewable energy", chinese: "再生能源", cat: "Green Technology", sent: "Wind turbines and tidal networks supply clean, infinite _____ to towns." },
-                { word: "fossil fuels", chinese: "化石燃料", cat: "Energy Resources", sent: "Burning heavy _____ like coal and oil accelerates global climate trends." },
-                { word: "sustainability", chinese: "永續性", cat: "Environmental Concepts", sent: "The firm redesigned their manufacturing plant with long-term ecological _____." },
-                { word: "carbon footprint", chinese: "碳足跡", cat: "Climate Change", sent: "You can shrink your personal _____ by walking instead of driving cars." },
-                { word: "climate change", chinese: "氣候變遷", cat: "Climate Change", sent: "Severe droughts and rising sea baselines are direct indicators of _____." },
-                { word: "global warming", chinese: "全球變暖", cat: "Climate Change", sent: "Polar ice caps melt quickly due to the acceleration of _____." },
-                { word: "ozone layer", chinese: "臭氧層", cat: "Atmospheric Science", sent: "The upper _____ shields terrestrial organisms from lethal solar radiation." },
-                { word: "depletion", chinese: "消耗/枯竭", cat: "Resource Management", sent: "The rapid _____ of natural groundwater causes extreme agricultural panics." },
-                { word: "endangered species", chinese: "瀕危物種", cat: "Wildlife Protection", sent: "Giant pandas are a protected _____ because few remain in wild habitats." },
-                { word: "extinction", chinese: "絕種/滅絕", cat: "Wildlife Protection", sent: "Hunting and habitat destruction drove the flightless dodo bird to total _____." },
-
-                // Quiz 3 (21-30)
-                { word: "habitat destruction", chinese: "棲息地破壞", cat: "Wildlife Protection", sent: "Building highways across reserves results in severe forest _____." },
-                { word: "reforestation", chinese: "重新造林", cat: "Environmental Solutions", sent: "Volunteers organized a _____ campaign to plant pine trees on hills." },
-                { word: "afforestation", chinese: "造林/植樹造林", cat: "Environmental Solutions", sent: "Converting barren desert borders into dense woodlands requires systematic _____." },
-                { word: "waste management", chinese: "廢棄物管理", cat: "Urban Ecology", sent: "Smart cities utilize advanced robotic separation bins for effective _____." },
-                { word: "recycling", chinese: "回收", cat: "Urban Ecology", sent: "Sorting domestic plastic bottles makes plastic _____ loops much faster." },
-                { word: "biodegradable", chinese: "可生物降解的", cat: "Green Material", sent: "Paper bags are completely _____ and break down naturally within weeks." },
-                { word: "composting", chinese: "堆肥", cat: "Urban Ecology", sent: "Organic kitchen scraps can turn into nutritious plant soil via domestic _____." },
-                { word: "landfill", chinese: "垃圾填埋場", cat: "Urban Ecology", sent: "The municipal _____ will overflow if citizens do not reduce plastic usage." },
-                { word: "incineration", chinese: "焚化", cat: "Urban Ecology", sent: "High-temperature trash _____ produces structural electricity but creates ash particles." },
-                { word: "toxic waste", chinese: "有毒廢料", cat: "Environmental Hazards", sent: "Chemical corporations face massive fines for dumping raw _____ into streams." },
-
-                // Quiz 4 (31-40)
-                { word: "hazardous", chinese: "危險的", cat: "Environmental Hazards", sent: "Discarded radioactive elements pose a highly _____ threat to urban populations." },
-                { word: "pollutant", chinese: "污染物", cat: "Environmental Hazards", sent: "Microplastic beads are a persistent oceanic _____ ingested by marine life." },
-                { word: "contaminate", chinese: "污染/弄髒", cat: "Environmental Hazards", sent: "Leaking fuel pipelines can quickly _____ subsurface drinking water reserves." },
-                { word: "purification", chinese: "淨化", cat: "Environmental Solutions", sent: "Desalination facilities implement advanced reverse osmosis for ocean water _____." },
-                { word: "conservationist", chinese: "自然保護主義者", cat: "Civic Action", sent: "An active _____ spends their life campaigning to protect ancient woods." },
-                { word: "environmentalist", chinese: "環境保護論者", cat: "Civic Action", sent: "The noted _____ hosted an open conference on cutting urban carbon footprints." },
-                { word: "activist", chinese: "激進分子/行動主義者", cat: "Civic Action", sent: "A teenage climate _____ protested outside parliament demanding immediate legislative changes." },
-                { word: "regulation", chinese: "法規/規定", cat: "Policy", sent: "Strict government _____ limits the concentration of exhaust gas from trucks." },
-                { word: "legislation", chinese: "立法/法律", cat: "Policy", sent: "Parliament passed historic ecological _____ banning single-use shopping bags." },
-                { word: "policy", chinese: "政策", cat: "Policy", sent: "The university introduced a zero-paper operational _____ starting this semester." },
-
-                // Quiz 5 (41-50)
-                { word: "alternative energy", chinese: "替代能源", cat: "Green Technology", sent: "Geothermal heat offers a reliable _____ option to conventional coal fuel." },
-                { word: "solar power", chinese: "太陽能", cat: "Green Technology", sent: "Photovoltaic cells absorb direct daylight rays to optimize _____ capture." },
-                { word: "wind energy", chinese: "風能", cat: "Green Technology", sent: "Coastal regions build huge offshore installations to harvest clean _____." },
-                { word: "hydroelectric", chinese: "水力發電的", cat: "Green Technology", sent: "Water flowing through giant mountain dams generates clean _____ power." },
-                { word: "geothermal", chinese: "地熱的", cat: "Green Technology", sent: "Volcanic islands extract deep subterranean steam to run _____ power hubs." },
-                { word: "biomass", chinese: "生物質", cat: "Energy Resources", sent: "Utilizing agricultural straw and organic crop wood for fuel is called _____." },
-                { word: "nuclear energy", chinese: "核能", cat: "Energy Resources", sent: "Atomic fission generates vast electricity but produces long-lasting _____ waste." },
-                { word: "efficient", chinese: "高效率的", cat: "Green Technology", sent: "Smart LED light bulbs are highly _____ and save 80% more juice." },
-                { word: "conservation of energy", chinese: "節約能源", cat: "Resource Management", sent: "Switching off household appliances when vacant promotes the _____." },
-                { word: "consumption", chinese: "消耗量/消費", cat: "Resource Management", sent: "During hot summer periods, domestic electrical _____ spikes dramatically." },
-
-                // Quiz 6 (51-60)
-                { word: "deplete", chinese: "消耗/使枯竭", cat: "Resource Management", sent: "If we continue to fish at this rate, we will completely _____ tuna stocks." },
-                { word: "exploit", chinese: "剝削/利用/開發", cat: "Resource Management", sent: "Mining cartels aggressively _____ pristine arctic fields for rare minerals." },
-                { word: "exploitation", chinese: "開發/開採", cat: "Resource Management", sent: "Unchecked commercial _____ of natural gas fields destabilizes structural faultlines." },
-                { word: "resourceful", chinese: "足智多謀的/資源豐富的", cat: "Human Strategies", sent: "The stranded ecological explorers proved very _____ in finding fresh water." },
-                { word: "scarcity", chinese: "缺乏/不足", cat: "Resource Management", sent: "Severe regional rainfall drop triggers acute agricultural crop _____." },
-                { word: "abundance", chinese: "豐富/充足", cat: "Resource Management", sent: "Tropical rainforest zones exhibit an incredible _____ of unique edible vegetation." },
-                { word: "drought", chinese: "乾旱", cat: "Climate Change", sent: "The profound three-year _____ cracked soil fields and killed farm cattle." },
-                { word: "famine", chinese: " famine", cat: "Global Issues", sent: "Crop failures caused by sudden insect swarms sparked a national _____." },
-                { word: "starvation", chinese: "飢餓", cat: "Global Issues", sent: "Displaced wildlife specimens face absolute _____ when territory zones burn down." },
-                { word: "malnutrition", chinese: "營養不良", cat: "Global Issues", sent: "Impoverished refugee kids suffer from chronic _____ due to low vitamins." },
-
-                // Quiz 7 (61-70)
-                { word: "poverty", chinese: "貧窮", cat: "Global Issues", sent: "Ecology collapse impacts communities trapped in deep operational _____ hardest." },
-                { word: "sanitation", chinese: "環境衛生/衛生系統", cat: "Urban Ecology", sent: "Adequate plumbing and sewer separation drastically improve public _____ levels." },
-                { word: "hygiene", chinese: "衛生", cat: "Urban Ecology", sent: "Maintaining personal water _____ prevents dangerous waterborne parasites from spreading." },
-                { word: "contamination", chinese: "污染", cat: "Environmental Hazards", sent: "Industrial radiation leaks caused widespread ecological food supply _____." },
-                { word: "disaster", chinese: "災害/災難", cat: "Climate Change", sent: "The sudden categoric super-typhoon was an absolute climate _____." },
-                { word: "catastrophe", chinese: "大災難", cat: "Climate Change", sent: "A massive asteroid impact would induce a global ecological _____." },
-                { word: "devastation", chinese: "毀滅/破壞", cat: "Climate Change", sent: "Wildfires left behind a trail of absolute forest _____ and ash." },
-                { word: "vulnerability", chinese: "脆弱性", cat: "Climate Change", sent: "Low-lying coastal towns face high _____ from rising oceanic sea baselines." },
-                { word: "resilience", chinese: "韌性/彈性", cat: "Human Strategies", sent: "Mangrove forests show incredible environmental _____ against ocean tidal waves." },
-                { word: "adaptation", chinese: "適應", cat: "Human Strategies", sent: "Building elevated stilt houses is an effective climate _____ strategy." },
-
-                // Quiz 8 (71-80)
-                { word: "mitigation", chinese: "緩和/減輕", cat: "Human Strategies", sent: "Planting rooftop gardens serves as an urban heat island _____ tactic." },
-                { word: "greenhouse effect", chinese: "溫室效應", cat: "Climate Change", sent: "The natural _____ keeps earth warm, but industrial gases intensify it." },
-                { word: "carbon dioxide", chinese: "二氧化碳", cat: "Atmospheric Science", sent: "Trees absorb heavy atmospheric _____ and release refreshing breathable oxygen." },
-                { word: "methane", chinese: "甲烷", cat: "Atmospheric Science", sent: "Decomposing landfill trash and cattle farming generate volatile _____ gas." },
-                { word: "atmosphere", chinese: "大氣/大氣層", cat: "Atmospheric Science", sent: "Poisonous factory soot particles accumulate inside our upper breathing _____." },
-                { word: "biosphere", chinese: "生物圈", cat: "Environmental Concepts", sent: "All living organisms and supporting habitats together form the earth's _____." },
-                { word: "geosphere", chinese: "地圈", cat: "Atmospheric Science", sent: "The structural rocky crust and mantle layers constitute the planet's _____." },
-                { word: "hydrosphere", chinese: "水圈", cat: "Atmospheric Science", sent: "Oceans, vapor clouds, and deep ice sheets comprise the global _____." },
-                { word: "gladier", chinese: "冰河/冰川", cat: "Climate Change", sent: "Warmer global seasons cause the polar mountain _____ to retreat rapidly." },
-                { word: "ice cap", chinese: "冰帽/冰原", cat: "Climate Change", sent: "The greenland _____ is shedding massive gigatons of pure ice monthly." },
-
-                // Quiz 9 (81-90)
-                { word: "sea level rise", chinese: "海平面上升", cat: "Climate Change", sent: "Island nations face complete submersion due to accelerated _____." },
-                { word: "coastal erosion", chinese: "海岸侵蝕", cat: "Geological Hazards", sent: "Violent ocean storms wash away sandy beaches, causing severe _____." },
-                { word: "acid rain", chinese: "酸雨", cat: "Environmental Hazards", sent: "Sulfur emissions mix with clouds to produce destructive, corrosive _____." },
-                { word: "smog", chinese: "煙霧/霧霾", cat: "Environmental Hazards", sent: "Heavy traffic combined with low winds creates a thick layer of urban _____." },
-                { word: "air quality", chinese: "空氣品質", cat: "Environmental Concepts", sent: "Masks are recommended when the local metropolitan _____ index drops." },
-                { word: "degrade", chinese: "降解/退化", cat: "Environmental Hazards", sent: "Chemical detergents significantly _____ soil quality over prolonged durations." },
-                { word: "degradation", chinese: "退化/降格", cat: "Environmental Hazards", sent: "Overgrazing leads to rapid topsoil _____ across dry savanna ranges." },
-                { word: "unprecedented", chinese: "史無前例的", cat: "Global Issues", sent: "The continent is experiencing an _____ heatwave breaking historic records." },
-                { word: "irreversible", chinese: "不可逆轉的", cat: "Global Issues", sent: "Losing endemic rainforest species causes total, _____ biodiversity loss." },
-                { word: "tipping point", chinese: "臨界點", cat: "Climate Change", sent: "Scientists fear the arctic thaw has crossed a dangerous climate _____." },
-
-                // Quiz 10 (91-100)
-                { word: "carbon sequestration", chinese: "碳固存", cat: "Green Technology", sent: "Deep subterranean stone injection allows for permanent industrial _____." },
-                { word: "sustainable development", chinese: "永續發展", cat: "Environmental Concepts", sent: "UN goals promote economic growth aligned with global _____ protocols." },
-                { word: "renewable resource", chinese: "再生資源", cat: "Energy Resources", sent: "Timber from certified forests is a highly manageable _____." },
-                { word: "non renewable", chinese: "不可再生的", cat: "Energy Resources", sent: "Petroleum oil is a _____ fuel that takes millions of years to form." },
-                { word: "fossilization", chinese: "化石化", cat: "Energy Resources", sent: "Ancient prehistoric vegetative decomposition involves gradual organic _____ processes." },
-                { word: "carbon cycle", chinese: "碳循環", cat: "Environmental Concepts", sent: "Photosynthesis and animal respiration maintain equilibrium in the global _____." },
-                { word: "nitrogen cycle", chinese: "氮循環", cat: "Environmental Concepts", sent: "Soil bacteria convert atmospheric chemicals to support plants in the _____." },
-                { word: "water cycle", chinese: "水循環", cat: "Environmental Concepts", sent: "Evaporation, condensation, and rain are key parts of the terrestrial _____." },
-                { word: "precipitation", chinese: "降水/降雨量", cat: "Atmospheric Science", sent: "Metereologists predict a high level of winter _____ across mountain zones." },
-                { word: "evaporation", chinese: "蒸發", cat: "Atmospheric Science", sent: "Intense solar rays accelerate surface lake water _____ during dry summer spells." },
-
-                // Quiz 11 (101-110)
-                { word: "condensation", chinese: "凝結", cat: "Atmospheric Science", sent: "Atmospheric cooling induces moisture _____ on grass tips overnight." },
-                { word: "transpiration", chinese: "蒸騰作用", cat: "Atmospheric Science", sent: "Leaf stomata release pure moisture vapors into clouds via agricultural _____." },
-                { word: "runoff", chinese: "逕流/流失的水", cat: "Geological Hazards", sent: "Fertilizer agricultural _____ contaminates nearby lakes, creating algal blooms." },
-                { word: "groundwater", chinese: "地下水", cat: "Resource Management", sent: "Rural farming populations dig deep boreholes to draw clean _____ reserves." },
-                { word: "aquifer", chinese: "含水層", cat: "Resource Management", sent: "Over-pumping drains the subterranean rock _____, cracking empty topsoil beds." },
-                { word: "irrigation", chinese: "灌溉", cat: "Human Strategies", sent: "Drip _____ channels precise water amounts to dry desert fruit trees." },
-                { word: "organic farming", chinese: "有機農作", cat: "Human Strategies", sent: "Avoiding chemical sprays and toxic pesticides is foundational to _____." },
-                { word: "pesticide", chinese: "殺蟲劑", cat: "Environmental Hazards", sent: "Excessive industrial _____ use accidentally wipes out vital honeybee swarms." },
-                { word: "herbicide", chinese: "除草劑", cat: "Environmental Hazards", sent: "The farmer sprayed a strong toxic _____ to eliminate invasive weed patches." },
-                { word: "fertilizer", chinese: "肥料", cat: "Environmental Hazards", sent: "Nitrogen-rich synthetic _____ boosts corn growth but triggers river damage." },
-
-                // Quiz 12 (111-120)
-                { word: "eutrophication", chinese: "優養化", cat: "Environmental Hazards", sent: "Chemical runoffs cause river aquatic oxygen death via rapid water _____." },
-                { word: "algal bloom", chinese: "藻華/藻類暴長", cat: "Environmental Hazards", sent: "A thick green _____ blocks essential sunlight from entering deep lake zones." },
-                { word: "marine life", chinese: "海洋生物", cat: "Wildlife Protection", sent: "Discarded ocean plastic netting entangles and kills sensitive local _____." },
-                { word: "overfishing", chinese: "過度捕撈", cat: "Wildlife Protection", sent: "Giant commercial trawlers trigger catastrophic oceanic collapse through _____." },
-                { word: "bycatch", chinese: "副漁獲物/意外捕獲物", cat: "Wildlife Protection", sent: "Dolphins caught inside industrial tuna nets are classified as tragic waste _____." },
-                { word: "poaching", chinese: "偷獵", cat: "Wildlife Protection", sent: "Illegal ivory hunting and rhino horn _____ push wildlife to extinction." },
-                { word: "wildlife trade", chinese: "野生動物貿易", cat: "Wildlife Protection", sent: "International police enforce severe laws to shut down black market _____ loops." },
-                { word: "sanctuary", chinese: "避難所/保護區", cat: "Wildlife Protection", sent: "The injured leopards were brought safely to a secure forest _____." },
-                { word: "reserve", chinese: "保護區/儲備", cat: "Wildlife Protection", sent: "A certified national nature _____ prohibits tourist logging or commercial hunting." },
-                { word: "national park", chinese: "國家公園", cat: "Wildlife Protection", sent: "Rangers patrol the vast wilderness _____ to safeguard wild animals." },
-
-                // Quiz 13 (121-130)
-                { word: "ecotourism", chinese: "生態旅遊", cat: "Civic Action", sent: "Low-impact travel options like nature hikes promote sustainable local _____." },
-                { word: "carbon tax", chinese: "碳稅", cat: "Policy", sent: "The government imposes a stiff corporate _____ on dirty diesel operations." },
-                { word: "cap and trade", chinese: "總量管制與交易", cat: "Policy", sent: "Industrial corporations swap factory emission permits using a _____ system." },
-                { word: "subsidize", chinese: "補助/資助", cat: "Policy", sent: "Governments actively _____ residential electric car purchases with cash credits." },
-                { word: "subsidy", chinese: "補貼/津貼", cat: "Policy", sent: "The solar installation grant program offers a generous clean green _____." },
-                { word: "green certification", chinese: "綠色認證", cat: "Policy", sent: "Skyscrapers achieve elite status by earning a formal architectural _____." },
-                { word: "eco friendly", chinese: "環保的", cat: "Green Material", sent: "Bamboo toothbrushes are a superb, highly _____ option to plastic." },
-                { word: "zero waste", chinese: "零浪費", cat: "Urban Ecology", sent: "The eco-hotel implements a total packaging ban to achieve an absolute _____ goal." },
-                { word: "circular economy", chinese: "循環經濟", cat: "Environmental Concepts", sent: "Manufacturing systems that recycle old products endlessly follow a _____ design." },
-                { word: "consumerism", chinese: "消費主義", cat: "Global Issues", sent: "Hyper-fast fashion trends and excessive global _____ fill trash landfills." }
+                { word: "accessories", chinese: "配飾", cat: "Clothing", sent: "The dress code clearly states that students cannot wear any types of _____ such as sunglasses or a necklace so you'll have to take those off." },
+                { word: "bold", chinese: "大膽的/輪廓清晰的", cat: "Clothing", sent: "She made a _____ fashion choice by wearing bright mismatched socks with her formal suit." },
+                { word: "cheongsam", chinese: "長衫", cat: "Clothing", sent: "My grandmother always wears a _____ on the first day of the Chinese New Year." },
+                { word: "chequered", chinese: "方格的", cat: "Clothing", sent: "He wore a stylish flannel shirt with a traditional black and white _____ pattern." },
+                { word: "costume", chinese: "(某時期或活動的)服裝", cat: "Clothing", sent: "I especially liked all the different _____ that the characters wore." },
+                { word: "cotton", chinese: "棉布", cat: "Clothing", sent: "This lightweight summer shirt is made of pure high-grade breathable _____." },
+                { word: "cut", chinese: "剪裁", cat: "Clothing", sent: "The master tailor praised the elegant clean modern lines of the jacket's tailored _____." },
+                { word: "denim", chinese: "牛仔布", cat: "Clothing", sent: "He preferred wearing rough durable classic blue jacket options made of pure stiff _____." },
+                { word: "diamond-shaped", chinese: "菱形的", cat: "Clothing", sent: "The window pane panel features small patterned fragments arranged in a _____ grid structure." },
+                { word: "dotted", chinese: "圓點的", cat: "Clothing", sent: "She bought a vintage silk dress decorated with beautiful tiny black and white _____ points." },
+                { word: "dress code", chinese: "衣著規範", cat: "Clothing", sent: "The _____ clearly states that students cannot wear any types of accessories." },
+                { word: "fashion", chinese: "時尚", cat: "Clothing", sent: "Trends in global youth _____ shift incredibly quickly due to digital video networks." },
+                { word: "figure-hugging", chinese: "貼身的", cat: "Clothing", sent: "The actress walked down the red carpet runway in an elegant, tight _____ dress." },
+                { word: "flared", chinese: "喇叭形的", cat: "Clothing", sent: "The retro wardrobe features iconic wide _____ trousers reminiscent of early 1970s styles." },
+                { word: "floral", chinese: "飾以花卉圖案的", cat: "Clothing", sent: "It is Ruth's custom to always wear a dress with a _____ pattern on Easter Sunday." },
+                { word: "footwear", chinese: "鞋類", cat: "Clothing", sent: "Please make sure you remove all outdoor _____ before walking onto the clean temple mats." },
+                { word: "fur", chinese: "皮草", cat: "Clothing", sent: "Many major international design houses have completely banned using real animal _____ items." },
+                { word: "kimono", chinese: "和服", cat: "Clothing", sent: "People were angry when the Western actor wore a _____ to the event which was a celebration of Chinese culture." },
+                { word: "linen", chinese: "亞麻布", cat: "Clothing", sent: "To stay cool during hot weather, lightweight trousers woven from coarse flax _____ are recommended." },
+                { word: "loose-fitting", chinese: "寬鬆的", cat: "Clothing", sent: "He swapped his narrow skinny jeans for highly comfortable, baggy _____ cargo shorts." },
+                { word: "necklace", chinese: "項鍊", cat: "Clothing", sent: "Students cannot wear any types of accessories such as sunglasses or a _____." },
+                { word: "outfit", chinese: "全套服裝", cat: "Clothing", sent: "I wonder how authentic those _____ were to the dynasty the show depicted." },
+                { word: "oval", chinese: "橢圓形的", cat: "Clothing", sent: "The polished silver frame features a distinct smooth curved _____ layout boundary." },
+                { word: "pattern", chinese: "圖案", cat: "Clothing", sent: "It is Ruth's custom to always wear a dress with a floral _____ on Easter Sunday." },
+                { word: "rectangular", chinese: "矩形的", cat: "Clothing", sent: "The formal dining layout was based around a massive extended solid _____ table piece." },
+                { word: "round", chinese: "圓形的", cat: "Clothing", sent: "The traditional tea house room was arranged around a wide circular _____ tabletop deck." },
+                { word: "scarf", chinese: "圍巾", cat: "Clothing", sent: "She wrapped a thick woven woollen _____ around her frozen neck during the winter walk." },
+                { word: "silk", chinese: "絲綢", cat: "Clothing", sent: "The expensive dress felt incredibly soft and smooth, woven from the finest pure organic _____." },
+                { word: "square", chinese: "方塊的", cat: "Clothing", sent: "The abstract patchwork quilt is composed of tiny multi-colored symmetric _____ canvas blocks." },
+                { word: "striped", chinese: "有條紋的", cat: "Clothing", sent: "The team uniform choice features alternating bold white and dark blue vertical _____ grids." },
+                { word: "trainers", chinese: "運動鞋", cat: "Clothing", sent: "He packed lightweight running socks along with his favorite athletic mesh _____." },
+                { word: "trendy", chinese: "時髦的", cat: "Clothing", sent: "The local downtown shopping district is packed full of chic, ultra-popular _____ boutiques." },
+                { word: "triangular", chinese: "三角形的", cat: "Clothing", sent: "The directional safety warning sign format relies on an equilateral sharp _____ metal frame." },
+                { word: "trousers", chinese: "褲子", cat: "Clothing", sent: "He paired his smart casual blazer jacket with a pair of matching charcoal grey slim _____." },
+                { word: "T-shirt", chinese: "T恤", cat: "Clothing", sent: "He decided to just throw on a casual plain cotton white _____ and some denim jeans." },
+                { word: "wool", chinese: "羊毛", cat: "Clothing", sent: "This heavy winter sweater is knitted using authentic thick insulating sheep _____ yarns." },
+                { word: "authentic", chinese: "真正的", cat: "Customs and Traditions", sent: "I wonder how _____ those outfits were to the dynasty the show depicted." },
+                { word: "Cantonese opera", chinese: "粵劇", cat: "Customs and Traditions", sent: "I really enjoyed seeing the _____ at the Xiqu Centre last night." },
+                { word: "Chinese opera", chinese: "中國戲曲", cat: "Customs and Traditions", sent: "The performance showcased classical arts from the ancient traditional _____ heritage styles." },
+                { word: "cultural awareness", chinese: "文化意識", cat: "Customs and Traditions", sent: "They criticized the actor over her lack of _____." },
+                { word: "culture shock", chinese: "文化衝擊", cat: "Customs and Traditions", sent: "Moving from a quiet countryside village directly to Tokyo can generate severe _____." },
+                { word: "custom", chinese: "習俗", cat: "Customs and Traditions", sent: "It is Ruth's _____ to always wear a dress with a floral pattern on Easter Sunday." },
+                { word: "ethnic minority", chinese: "少數族裔", cat: "Customs and Traditions", sent: "The government launched new grants to preserve the musical oral history of each indigenous _____ group." },
+                { word: "folk", chinese: "流傳民間的", cat: "Customs and Traditions", sent: "The local orchestra performed beautiful renditions of historical regional countryside _____ tunes." },
+                { word: "handicraft", chinese: "手工藝", cat: "Customs and Traditions", sent: "The weekend tourism market features stalls packed with masterfully carved wooden _____ options." },
+                { word: "immerse", chinese: "使...沉浸", cat: "Customs and Traditions", sent: "To master a language, you should entirely _____ yourself into the daily lifestyle ecosystem." },
+                { word: "intangible cultural heritage", chinese: "非物質文化遺產", cat: "Customs and Traditions", sent: "The traditional methods of preparing dim sum are officially labeled under preserved _____ data." },
+                { word: "lion dance", chinese: "舞獅", cat: "Customs and Traditions", sent: "The energetic thunderous drum beats signaled the opening routine of the traditional holiday _____." },
+                { word: "misunderstanding", chinese: "誤解", cat: "Customs and Traditions", sent: "Failing to check local physical gesture customs can trigger an unintended cross-border _____." },
+                { word: "modern", chinese: "現代的", cat: "Customs and Traditions", sent: "As for myself, I usually just put on something _____ like a coat jacket and jeans." },
+                { word: "Peking opera", chinese: "京劇", cat: "Customs and Traditions", sent: "The actors used highly dramatic painted facial expressions distinctive to traditional _____ styles." },
+                { word: "slang", chinese: "俚語", cat: "Customs and Traditions", sent: "Even with excellent formal dictionary skills, understanding colloquial local street _____ takes months." },
+                { word: "social practices", chinese: "社會慣例", cat: "Customs and Traditions", sent: "Anthropologists study how unique holiday greeting cards function as standard community _____." },
+                { word: "tip", chinese: "小費", cat: "Customs and Traditions", sent: "When traveling, check if leaving a generous cash restaurant service _____ is expected by waiters." },
+                { word: "traditional", chinese: "傳統的", cat: "Customs and Traditions", sent: "That's a type of _____ one-piece Chinese dress." },
+                { word: "Traditional Chinese Almanac", chinese: "傳統中國曆法/通勝", cat: "Customs and Traditions", sent: "Elderly family components consult the printed _____ to select highly lucky dates for weddings." },
+                { word: "traditional medicine", chinese: "傳統藥物", cat: "Customs and Traditions", sent: "The street clinic uses natural herbal remedies rooted in centuries of classical _____." },
+                { word: "UNESCO World Heritage", chinese: "聯合國教科文組織世界遺產", cat: "Customs and Traditions", sent: "The ancient temple complex was officially granted protected status under the global _____ list." },
+                { word: "variety", chinese: "多樣化", cat: "Customs and Traditions", sent: "The food stall collection displays an incredible vibrant _____ of delicious regional snack picks." },
+                { word: "vibrantly", chinese: "充滿活力地", cat: "Customs and Traditions", sent: "The annual parade street was decorated with streamers glowing _____ under the sunset light." },
+                { word: "Cheung Chau Bun Festival", chinese: "長洲太平清醮", cat: "Festivals", sent: "It is traditional for people to eat vegetarian food during the _____ which takes place on the outlying island." },
+                { word: "Christmas", chinese: "聖誕節", cat: "Festivals", sent: "Every year at _____ my father cooks a mouth-watering turkey for dinner." },
+                { word: "Dragon Boat Festival", chinese: "端午節", cat: "Festivals", sent: "Our office usually enters a team made up of the sportiest colleagues in the _____ every year." },
+                { word: "Hungry Ghost Festival", chinese: "中元節/盂蘭盆節", cat: "Festivals", sent: "During the lunar seventh month, local residents burn paper offerings out on sidewalks for the _____." },
+                { word: "Mid-Autumn Festival", chinese: "中秋節", cat: "Festivals", sent: "Jimmy's family gathered together to eat mooncakes and gaze at lanterns during the _____ last year." },
+                { word: "catering", chinese: "餐飲業", cat: "Food", sent: "The massive international hotel group provides luxury banquet and party _____ solutions." },
+                { word: "cuisine", chinese: "美食", cat: "Food", sent: "She loved traveling through Southeast Asia to taste authentic, spice-rich regional _____ variations." },
+                { word: "culinary", chinese: "烹飪的", cat: "Food", sent: "The institute trains student chefs to perfect their advanced gourmet _____ arts mastery." },
+                { word: "curry", chinese: "咖哩", cat: "Food", sent: "A famous dish in India, _____ has evolved into a global phenomenon over the centuries." },
+                { word: "delicious", chinese: "可口的", cat: "Food", sent: "Every year at Christmas my father cooks a mouth-watering turkey for dinner. It is so _____!" },
+                { word: "dessert", chinese: "甜點", cat: "Food", sent: "After finishing the main steak course, they ordered a rich chocolate mousse for _____." },
+                { word: "dim sum", chinese: "點心", cat: "Food", sent: "Our relatives love gathering early on Sunday mornings to drink hot tea and steam baskets of _____." },
+                { word: "fast-food chain", chinese: "速食連鎖店", cat: "Food", sent: "The urban street corner is dominated by a bright glowing popular multinational _____." },
+                { word: "flavour", chinese: "味道", cat: "Food", sent: "One of the national dishes of Germany must be the bratwurst... tasty and full of _____." },
+                { word: "food poisoning", chinese: "食物中毒", cat: "Food", sent: "Unfortunately, the sushi had been left out at room temperature for too long, and he ended up with _____." },
+                { word: "gourmet", chinese: "(食品)優質的", cat: "Food", sent: "The upscale airport marketplace sells premium, masterfully packaged expensive _____ treats." },
+                { word: "head chef", chinese: "主廚", cat: "Food", sent: "Paula's dad is an excellent cook. In fact, he is the _____ at a Michelin-starred restaurant." },
+                { word: "ingredient", chinese: "材料", cat: "Food", sent: "The domestic helper always prepares delicious meals made with fresh _____." },
+                { word: "Michelin", chinese: "米芝蓮", cat: "Food", sent: "Paula's dad is an excellent cook. In fact, he is the head chef at a _____-starred restaurant." },
+                { word: "microwave meal", chinese: "微波餐", cat: "Food", sent: "Sadly, this year he was out of town, so I only ended up having a simple _____." },
+                { word: "mouth-watering", chinese: "令人垂涎的", cat: "Food", sent: "Every year at Christmas my father cooks a _____ turkey for dinner." },
+                { word: "national dish", chinese: "國家代表食物", cat: "Food", sent: "One of the _____ of Germany must be the bratwurst, a type of mildly spiced sausage." },
+                { word: "nutritious", chinese: "有營養的", cat: "Food", sent: "A balanced diet consisting of fresh steamed organic leafy greens is highly _____." },
+                { word: "peeling", chinese: "【水果或蔬菜)削下的皮", cat: "Food", sent: "The soup recipe requires you to collect all the leftover potato _____ scraps for compost." },
+                { word: "pepperoni", chinese: "意大利辣香腸", cat: "Food", sent: "His _____ pizzas are well known for their rich flavour and perfect crust." },
+                { word: "pizzeria", chinese: "披薩店", cat: "Food", sent: "A trained chef, he owns an authentic Italian _____ in Mong Kok." },
+                { word: "sous-chef", chinese: "副主廚", cat: "Food", sent: "The talented _____ manages kitchen line operations when the master executive is absent." },
+                { word: "spaghetti", chinese: "意大利直麵", cat: "Food", sent: "She prepared a massive family pot of traditional tomato meat sauce over boiling fresh _____ lines." },
+                { word: "spicy", chinese: "辛辣的", cat: "Food", sent: "In Japan, for example, curry is usually served with rice and is less _____ than the Indian version." },
+                { word: "tasteless", chinese: "無味道的", cat: "Food", sent: "Without proper salt seasonings, this unmarinated vegetable broth remains completely flat and _____." },
+                { word: "tuck into", chinese: "盡情地吃", cat: "Food", sent: "Jeff couldn't wait to _____ that sushi last night." },
+                { word: "vegan", chinese: "全素主義者", cat: "Food", sent: "The cafe menu offers dairy-free oat milk options designed for strict _____ customers." },
+                { word: "vegetarian", chinese: "素食主義者", cat: "Food", sent: "It is traditional for people to eat _____ food during the Cheung Chau Bun Festival." },
+                { word: "Africa", chinese: "非洲", cat: "Places", sent: "The research team organized a multi-week wilderness safari trek across East _____ landscapes." },
+                { word: "altitude", chinese: "海拔", cat: "Places", sent: "Climbing severe peak slopes means travelers must adapt safely to low oxygen levels at high _____." },
+                { word: "Antarctica", chinese: "南極洲", cat: "Places", sent: "The extreme weather scientific team studied deep sheet ice blocks inside isolated _____ bases." },
+                { word: "Asia", chinese: "亞洲", cat: "Places", sent: "The airline network covers major urban business capital hubs located across East _____." },
+                { word: "Australia", chinese: "澳洲", cat: "Places", sent: "The student decided to spend a winter holiday touring the pristine coastal beaches of _____." },
+                { word: "Bangkok", chinese: "曼谷", cat: "Places", sent: "The flight route took us directly to the bustling river markets located in central _____." },
+                { word: "bustling", chinese: "繁華的", cat: "Places", sent: "The local downtown shopping market square remains incredibly crowded, lively and _____." },
+                { word: "Cambodia", chinese: "柬埔寨", cat: "Places", sent: "The historical exploration tour spent three days surveying the stone temple blocks of _____." },
+                { word: "Canada", chinese: "加拿大", cat: "Places", sent: "They spent the holiday renting a rustic lakeside wooden cabin in the cold forests of _____." },
+                { word: "China", chinese: "中國", cat: "Places", sent: "The high-speed bullet rail system connects multiple remote manufacturing regions across _____." },
+                { word: "Cuba", chinese: "古巴", cat: "Places", sent: "The historical documentary captured the vintage colorful automobile fleets cruising through _____." },
+                { word: "Edinburgh", chinese: "愛丁堡", cat: "Places", sent: "The culture festival attendees walked up the historic stone castle slopes in old _____." },
+                { word: "Europe", chinese: "歐洲", cat: "Places", sent: "Because I booked in advance, I was able to get an early-bird discount on my summer trip across _____." },
+                { word: "foothills", chinese: "山麓", cat: "Places", sent: "The small farming village was located safely down in the green grassy _____ of the mountain." },
+                { word: "France", chinese: "法國", cat: "Places", sent: "The art student spent two weeks touring historic paintings in classical galleries across _____." },
+                { word: "Germany", chinese: "德國", cat: "Places", sent: "One of the national dishes of _____ must be the bratwurst, a type of mildly spiced sausage." },
+                { word: "Hanoi", chinese: "河內", cat: "Places", sent: "The travel writers spent their mornings drinking traditional egg coffee down in old _____ lanes." },
+                { word: "India", chinese: "印度", cat: "Places", sent: "A famous dish in _____, curry has evolved into a global phenomenon over the centuries." },
+                { word: "Indonesia", chinese: "印尼", cat: "Places", sent: "The marine research trip charted coral reef health zones near the tropical islands of _____." },
+                { word: "Italy", chinese: "意大利", cat: "Places", sent: "Tony was born in a small town in _____." },
+                { word: "Japan", chinese: "日本", cat: "Places", sent: "In _____, for example, curry is usually served with rice and is less spicy than the Indian version." },
+                { word: "Kyoto", chinese: "京都", cat: "Places", sent: "The traditional autumn vacation plan includes walking past historic wooden temples in old _____." },
+                { word: "landscape", chinese: "(陸上的)風景/景觀", cat: "Places", sent: "The photographer captured stunning wide shots of the vast mountain _____ layout lines." },
+                { word: "Latin America", chinese: "拉丁美洲", cat: "Places", sent: "The research thesis tracked economic growth changes across expanding urban sectors in _____." },
+                { word: "London", chinese: "倫敦", cat: "Places", sent: "It was amazing getting to see landmarks like the Eiffel Tower in Paris and Big Ben in _____." },
+                { word: "Malaysia", chinese: "馬來西亞", cat: "Places", sent: "The multi-cultural street markets feature fantastic spice blends unique to western _____." },
+                { word: "Mexico", chinese: "墨西哥", cat: "Places", sent: "The festival team prepared traditional corn tacos to honor historic folklore paths of _____." },
+                { word: "Mumbai", chinese: "孟買", cat: "Places", sent: "The international trade delegation met with finance startup founders down in busy _____." },
+                { word: "Naples", chinese: "拿坡里", cat: "Places", sent: "The traditional culinary journey must include tasting baseline woodfired pizzas in coastal _____." },
+                { word: "neighbourhood", chinese: "街區", cat: "Places", sent: "The local community policing strategy vastly improved safety across our immediate suburban _____." },
+                { word: "Nepal", chinese: "尼特族/跨國步道", cat: "Places", sent: "The experienced mountain trekking team gathered equipment inside the capital of _____." },
+                { word: "New Dehli", chinese: "新德里", cat: "Places", sent: "The diplomatic convoy navigated through historic monument junctions crossing busy _____." },
+                { word: "North America", chinese: "北美洲", cat: "Places", sent: "Migratory bird tracks span thousands of miles crossing wide tundra spaces in upper _____." },
+                { word: "Norway", chinese: "挪威", cat: "Places", sent: "My family travelled to _____ last year because we wanted to see the Northern Lights." },
+                { word: "Pakistan", chinese: "巴基斯坦", cat: "Places", sent: "The geological field mission mapped rugged mountain passes across northern border tracks of _____." },
+                { word: "Perth", chinese: "珀斯", cat: "Places", sent: "The oceanography researchers launched their baseline coastal tracking vessels directly from _____." },
+                { word: "Peru", chinese: "秘魯", cat: "Places", sent: "The historical hiking itinerary followed ancient stone mountain trails leading up into _____." },
+                { word: "Rome", chinese: "羅馬", cat: "Places", sent: "It remains my dream to see the Seven Wonders of the Modern World, especially the Colosseum in _____." },
+                { word: "Scotland", chinese: "蘇格蘭", cat: "Places", sent: "The historical castle tour route took us directly into the windy misty highlands of _____." },
+                { word: "Seoul", chinese: "首爾", cat: "Places", sent: "The high-tech youth culture trends originate across ultra-connected lifestyle zones in _____." },
+                { word: "Seven Wonders of the Modern World", chinese: "世界新七大奇蹟", cat: "Places", sent: "It remains my dream to see the _____, especially the Colosseum in Rome." },
+                { word: "Shanghai", chinese: "上海", cat: "Places", sent: "The financial district skyline features towering skyscrapers overlooking the historic river in _____." },
+                { word: "South Korea", chinese: "南韓", cat: "Places", sent: "The electronics firm built a massive automated logistics facility in northern _____." },
+                { word: "Spain", chinese: "西班牙", cat: "Places", sent: "The summer holiday itinerary includes tasting fresh seafood paella dishes in coastal _____." },
+                { word: "Sydney", chinese: "悉尼", cat: "Places", sent: "The coastal cruise liner entered the spectacular harbor channel right next to _____." },
+                { word: "Thailand", chinese: "泰國", cat: "Places", sent: "The island resort package includes touring historic gilded temple arrays across southern _____." },
+                { word: "the Caribbean", chinese: "加勒比海", cat: "Places", sent: "The luxury cruise holiday travels across clear blue waters connecting tiny islands in _____." },
+                { word: "the Himalayas", chinese: "喜馬拉雅山", cat: "Places", sent: "The extreme climbing expedition targeted dangerous snowy peaks deep within _____ range." },
+                { word: "the Pacific (Ocean)", chinese: "太平洋", cat: "Places", sent: "The shipping route covers thousands of miles crossing open deep waters of _____ basin." },
+                { word: "the Philippines", chinese: "菲律賓", cat: "Places", sent: "Our family's domestic helper comes from the _____, a country in Southeast Asia." },
+                { word: "Tokyo", chinese: "東京", cat: "Places", sent: "Moving from a quiet countryside village directly to _____ can generate severe culture shock." },
+                { word: "Tower Bridge", chinese: "倫敦塔橋", cat: "Places", sent: "The sightseeing tour boat cruised right underneath the historic twin peaks of _____." },
+                { word: "Vietnam", chinese: "越南", cat: "Places", sent: "The agricultural trade group analyzed rice harvest output volumes across southern _____." },
+                { word: "abroad", chinese: "國外", cat: "Travel", sent: "Peter decided to join an exchange programme last year. He lived with a host family during his time _____." },
+                { word: "accent", chinese: "口音", cat: "Travel", sent: "Her fluent English vocabulary was delivered with a distinct, highly charming British _____." },
+                { word: "accessibility", chinese: "暢通易達", cat: "Travel", sent: "The urban transit station upgrades vastly improved wheelchair _____ across the platforms." },
+                { word: "accommodation", chinese: "住宿", cat: "Travel", sent: "The student travel agency handled all bookings for our hotel and hostel _____ setups." },
+                { word: "adventure", chinese: "歷險", cat: "Travel", sent: "It would certainly be the _____ of a lifetime!" },
+                { word: "airfare", chinese: "飛機票價", cat: "Travel", sent: "The summer vacation budget increased because standard international flight _____ spiked sharply." },
+                { word: "ambassador", chinese: "大使", cat: "Travel", sent: "The corporate diplomacy team met directly with the resident regional cultural _____." },
+                { word: "bargain", chinese: "便宜貨", cat: "Travel", sent: "She managed to source a fantastic cheap leather jacket at the street market stall—a real _____!" },
+                { word: "bill", chinese: "帳單", cat: "Travel", sent: "Please check the dining item totals carefully before handing over cash for the restaurant _____." },
+                { word: "broaden one's horizons", chinese: "開闊視野", cat: "Travel", sent: "Taking a gap year to work across foreign communities is an excellent way to _____." },
+                { word: "budget", chinese: "預算", cat: "Travel", sent: "The backpacker calculated a tight strict daily financial _____ to stretch her pocket savings." },
+                { word: "bullet train", chinese: "子彈火車", cat: "Travel", sent: "The high-speed rail line allows commuters to zip across urban centers on a modern _____." },
+                { word: "bunk bed", chinese: "雙層床", cat: "Travel", sent: "The shared youth hostel dormitory room features four wooden space-saving _____ sets." },
+                { word: "carriage", chinese: "車廂", cat: "Travel", sent: "The train conductor walked slowly through each passenger rail _____ to inspect active transit cards." },
+                { word: "cruise", chinese: "航遊", cat: "Travel", sent: "The retired couple booked a luxury marine _____ package touring around coastal Mediterranean ports." },
+                { word: "customer", chinese: "顧客", cat: "Travel", sent: "The newly opened thematic cafe works hard to provide every single visiting _____ with stellar service." },
+                { word: "destination", chinese: "目的地", cat: "Travel", sent: "The terminal flight monitor listed departure updates for our final holiday _____ hub." },
+                { word: "early-bird discount", chinese: "早鳥優惠", cat: "Travel", sent: "Because I booked in advance, I was able to get an _____ on my summer trip across Europe." },
+                { word: "ecotourism", chinese: "生態旅遊", cat: "Travel", sent: "The nature reserve limits visitor volume to promote responsible environmental _____ choices." },
+                { word: "ethical travel", chinese: "道德旅行", cat: "Travel", sent: "Practicing _____ means ensuring your tourism expenses directly support local indigenous merchants." },
+                { word: "exchange programme", chinese: "交流計劃", cat: "Travel", sent: "Peter decided to join an _____ last year." },
+                { word: "flight", chinese: "航班飛機", cat: "Travel", sent: "The heavy thunderstorm caused an immediate three-hour departure delay for our evening _____." },
+                { word: "gap year", chinese: "空檔年", cat: "Travel", sent: "Before entering legal university tracks, he spent a rewarding _____ volunteering across Africa." },
+                { word: "guest house", chinese: "賓館", cat: "Travel", sent: "They bypassed luxury hotels, opting to stay inside a cozy family-run village _____ layout." },
+                { word: "homesick", chinese: "思鄉的", cat: "Travel", sent: "The young international student felt deeply _____ during his first lonely month out in Canada." },
+                { word: "host", chinese: "主人家", cat: "Travel", sent: "The generous local _____ welcomed the traveling student delegation into his private home." },
+                { word: "host family", chinese: "寄宿家庭", cat: "Travel", sent: "He lived with a _____ during his time abroad." },
+                { word: "hostel", chinese: "旅館", cat: "Travel", sent: "Backpackers love booking cheap shared rooms at the central downtown youth _____ hub." },
+                { word: "independence", chinese: "獨立", cat: "Travel", sent: "Living alone inside a foreign city forces a young teenager to build structural personal _____." },
+                { word: "inhabitant", chinese: "居民", cat: "Travel", sent: "Every native island _____ we met was warm, welcoming, and proud of their local history." },
+                { word: "international", chinese: "國際的", cat: "Travel", sent: "The grand cultural exhibition center draws major _____ traveler groups every single year." },
+                { word: "itinerary", chinese: "行程計劃", cat: "Travel", sent: "The tour guide distributed a detailed printout of our multi-day sightseeing travel _____." },
+                { word: "language barrier", chinese: "語言障礙", cat: "Travel", sent: "Although he enjoyed the experience, the most difficult challenge was probably the _____." },
+                { word: "leisure trip", chinese: "休閒之旅", cat: "Travel", sent: "The busy corporate executive swapped his suit for shorts to enjoy a relaxing weekend _____." },
+                { word: "lodge", chinese: "(尤指度假者用的)小屋", cat: "Travel", sent: "The wilderness trail team rested their heavy packs inside a rustic wooden mountain _____ base." },
+                { word: "lodging", chinese: "住宿", cat: "Travel", sent: "The total travel package estimate includes transparent pricing for food, transit, and overnight _____." },
+                { word: "luxury", chinese: "奢華的", cat: "Travel", sent: "The seaside resort offers premium, exceptionally expensive five-star _____ amenities for guests." },
+                { word: "majestic", chinese: "雄偉的", cat: "Travel", sent: "The landscape view opens up to show a towering, absolutely _____ snow-capped mountain range peak." },
+                { word: "overpriced", chinese: "價格過高的", cat: "Travel", sent: "Most of the attractions we visited were _____ and crowded gimmicks designed to attract the masses." },
+                { word: "overrated", chinese: "被高估的", cat: "Travel", sent: "Most of the attractions we visited were _____." },
+                { word: "polar star", chinese: "北極星", cat: "Travel", sent: "Ancient open sea navigators tracked their sailing position alignment by watching the steady _____." },
+                { word: "premium", chinese: "優質的", cat: "Travel", sent: "Passengers can pay an extra fee to upgrade their economy ticket to access _____ lounge seating." },
+                { word: "pristine", chinese: "原始的", cat: "Travel", sent: "The environmental ecotourism group explored the deep untouched beauty of the _____ rainforest." },
+                { word: "promotional campaign", chinese: "促銷活動", cat: "Travel", sent: "The regional tourism board launched a massive digital _____ offering free flight ticket drops." },
+                { word: "reception", chinese: "接待處", cat: "Travel", sent: "Please hand over your passport documentation to the check-in desk clerk at the main hotel _____." },
+                { word: "reclining seat", chinese: "斜倚座椅", cat: "Travel", sent: "The overnight long-distance express bus features comfortable adjustable leather _____ setups." },
+                { word: "reputation", chinese: "聲譽/名聲", cat: "Travel", sent: "The boutique guest house earned a fantastic five-star _____ across popular booking apps." },
+                { word: "resort", chinese: "度假勝地", cat: "Travel", sent: "The family spent their summer vacation swimming at a premium tropical beachside island _____." },
+                { word: "sanctuary", chinese: "保護區", cat: "Travel", sent: "The remote forested wildlife valley functions as a safe natural _____ for endangered birds." },
+                { word: "service industry", chinese: "服務業", cat: "Travel", sent: "The coastal town economy relies almost entirely on hospitality career tracks within the _____." },
+                { word: "set sail", chinese: "啟航", cat: "Travel", sent: "The majestic white historic cruise vessel is scheduled to _____ from the harbor dock at noon." },
+                { word: "sights", chinese: "景點", cat: "Travel", sent: "They spent their morning taking quick snapshot photographs of all the iconic historic downtown _____." },
+                { word: "sightseeing spot", chinese: "旅遊景點", cat: "Travel", sent: "The mountain summit lookout deck represents an exceptionally popular regional _____." },
+                { word: "single room", chinese: "單人房", cat: "Travel", sent: "The solo traveler requested a small cost-effective private _____ containing one twin bed." },
+                { word: "ski", chinese: "滑雪", cat: "Travel", sent: "They traveled directly to the snowy mountain peaks of Japan to enjoy an alpine _____ holiday." },
+                { word: "snap", chinese: "快照", cat: "Travel", sent: "She pulled out her phone to take a quick impromptu landscape _____ of the beautiful sunset." },
+                { word: "stallholder", chinese: "攤主", cat: "Travel", sent: "The friendly night market _____ gave us a fantastic discount on the traditional handicraft souvenirs." },
+                { word: "stranger", chinese: "陌生人", cat: "Travel", sent: "When navigating through confusing alleys, do not hesitate to ask a polite local _____ for help." },
+                { word: "sunlounger", chinese: "日光椅", cat: "Travel", sent: "Guests can relax comfortably right next to the outdoor swimming pool deck on a plastic _____." },
+                { word: "temple", chinese: "寺廟", cat: "Travel", sent: "Tourists are reminded to dress respectfully when stepping inside the historic golden _____ halls." },
+                { word: "the globe", chinese: "全球", cat: "Travel", sent: "Digital native workers can run corporate assignments seamlessly from any corner across _____." },
+                { word: "the Northern Lights", chinese: "極光", cat: "Travel", sent: "My family travelled to Norway last year because we wanted to see _____." },
+                { word: "the outdoors", chinese: "戶外", cat: "Travel", sent: "Active youngsters prefer spending their holiday weeks hiking and exploring wild paths out in _____." },
+                { word: "tour guide", chinese: "導遊", cat: "Travel", sent: "The informative _____ shared fascinating historical anecdotes as we walked through the castle." },
+                { word: "tourist trap", chinese: "旅遊陷阱", cat: "Travel", sent: "They were nothing more than overpriced and crowded gimmicks designed to attract the masses... tourist traps." },
+                { word: "translation", chinese: "翻譯", cat: "Travel", sent: "He used a smart mobile application to get an immediate real-time vocal _____ of the street signs." },
+                { word: "trekking", chinese: "長距離步行", cat: "Travel", sent: "They packed sturdy all-terrain hiking boots to prepare for a multi-day mountain _____ expedition." },
+                { word: "vendor", chinese: "小販", cat: "Travel", sent: "The bustling street corner is packed with open food stalls run by local market _____ figures." },
+                { word: "volunteer", chinese: "自願", cat: "Travel", sent: "She decided to spend her summer break working to _____ at a local animal sanctuary farm." },
+                { word: "welcoming", chinese: "熱情友好的", cat: "Travel", sent: "The local village villagers were incredibly warm, helpful, polite, and _____ to our group." },
+                { word: "wilderness", chinese: "荒野", cat: "Travel", sent: "It was absolutely breathtaking to be out in the _____ looking up at all the vibrant colours in the night sky." },
+                { word: "working holiday", chinese: "打工度假", cat: "Travel", sent: "He applied for a special international visa to spend a year balancing fruit picking chores on a _____." }
             ]
         };
 
-        const unitTitles = { 5: "Unit 5: Sustainable Development & Global Ecology" };
+        const unitTitles = { 5: "Unit 5: Cultures of the World" };
 
         let studentProfile = { class: '', number: '', name: '' };
         let activeSelectedUnit = 5; 
@@ -548,16 +610,17 @@
             const grid = document.getElementById('quiz-grid');
             grid.innerHTML = '';
 
-            for (let q = 1; q <= 20; q++) {
+            // Unit 5 supports 30 dynamic quiz tracks
+            for (let q = 1; q <= 30; q++) {
                 const card = document.createElement('div');
                 card.className = 'quiz-card';
                 card.onclick = () => startQuizModule(q);
                 
                 let rangeText = `Vocab Section Quiz ${q}`;
-                if (activeSelectedUnit === 5) {
-                    if (q < 14) rangeText = `Vocab ${((q - 1) * 10) + 1} - ${q * 10}`;
-                    else if (q === 14) rangeText = "Random Selection Matrix";
-                    else rangeText = `Cumulative Review Set ${q}`;
+                if (q <= 21) {
+                    rangeText = `Vocab ${((q - 1) * 10) + 1} - ${q * 10}`;
+                } else {
+                    rangeText = `Random Review Set ${q}`;
                 }
 
                 card.innerHTML = `
@@ -589,20 +652,15 @@
             if (fullPool.length === 0) return [];
 
             let selectedSlice = [];
-            if (unit === 5) {
-                if (quizNum < 14) {
-                    // Quizzes 1 to 13 map out exactly 10 structured elements sequentially
-                    const startIndex = (quizNum - 1) * 10;
-                    selectedSlice = fullPool.slice(startIndex, startIndex + 10);
-                } else {
-                    // Quizzes 14 to 20 pull 10 random content arrays out of the full 130 list
-                    selectedSlice = shuffleArray(fullPool).slice(0, 10);
-                }
+            if (quizNum <= 21) {
+                const startIndex = (quizNum - 1) * 10;
+                selectedSlice = fullPool.slice(startIndex, startIndex + 10);
             } else {
-                selectedSlice = fullPool.slice(0, 10);
+                // Fair random draw across the full dataset pool for Quizzes 22-30
+                selectedSlice = shuffleArray(fullPool).slice(0, 10);
             }
 
-            // Safety check fallback logic
+            // Fallback safety verification catch
             while (selectedSlice.length < 10 && fullPool.length > 0) {
                 const randomItem = fullPool[Math.floor(Math.random() * fullPool.length)];
                 if(!selectedSlice.includes(randomItem)) selectedSlice.push(randomItem);
@@ -617,7 +675,7 @@
             activeQuestionsPool = getQuizQuestions(activeSelectedUnit, currentLevel, quizNum);
             
             if (activeQuestionsPool.length === 0) {
-                alert("Selected question set allocation array is unpopulated.");
+                alert("Selected question pool initialization array is unpopulated.");
                 return;
             }
             showScreen('quiz-screen');
@@ -713,7 +771,7 @@
             
             for (let i = 0; i < cleanWord.length; i++) {
                 const slot = document.createElement('div');
-                if ([' ', '.', '/', '—', '-'].includes(cleanWord[i])) {
+                if ([' ', '.', '/', '—', '-', '(', ')'].includes(cleanWord[i])) {
                     slot.className = 'slot space';
                     slot.innerText = cleanWord[i] !== ' ' ? cleanWord[i] : '';
                 } else if (i === 0) {
@@ -731,7 +789,7 @@
                 const slots = container.querySelectorAll('.slot:not(.space)');
                 let userCharIdx = 0;
                 for (let k = 1; k < cleanWord.length; k++) {
-                    if ([' ', '.', '/', '—', '-'].includes(cleanWord[k])) continue;
+                    if ([' ', '.', '/', '—', '-', '(', ')'].includes(cleanWord[k])) continue;
                     const slotNode = slots[userCharIdx + 1]; 
                     if (slotNode) {
                         if (val[userCharIdx]) {
@@ -762,11 +820,11 @@
                 isCorrect = (selectedChoice.toLowerCase().trim() === targetCorrectString.toLowerCase());
             } else if (currentLevel === 'intermediate') {
                 const userVal = inputBox.value.trim().toLowerCase();
-                const remainderCorrect = targetCorrectString.substring(1).toLowerCase().replace(/[\s\.\/—\-]/g, '');
-                isCorrect = (userVal.replace(/[\s\.\/—\-]/g, '') === remainderCorrect);
+                const remainderCorrect = targetCorrectString.substring(1).toLowerCase().replace(/[\s\.\/—\-\(\)]/g, '');
+                isCorrect = (userVal.replace(/[\s\.\/—\-\(\)]/g, '') === remainderCorrect);
             } else if (currentLevel === 'advanced') {
                 const userVal = inputBox.value.trim().toLowerCase();
-                isCorrect = (userVal.replace(/[\s\.\/—\-]/g, '') === targetCorrectString.toLowerCase().replace(/[\s\.\/—\-]/g, ''));
+                isCorrect = (userVal.replace(/[\s\.\/—\-\(\)]/g, '') === targetCorrectString.toLowerCase().replace(/[\s\.\/—\-\(\)]/g, ''));
             }
 
             feedback.classList.add('show');
@@ -854,7 +912,6 @@
 
         function fetchLeaderboardData() {
             const syncStatus = document.getElementById('sync-status');
-            
             document.getElementById('leaderboard-title-text').innerText = `🏆 Unit ${activeSelectedUnit} Live Leaderboard`;
             syncStatus.innerText = "Syncing cloud database...";
 
@@ -875,10 +932,7 @@
             const leaderboardBody = document.getElementById('leaderboard-body');
             leaderboardBody.innerHTML = '';
 
-            // Filter data array for selected Unit only
             const unitFiltered = recordsList.filter(r => parseInt(r.unit) === activeSelectedUnit);
-
-            // Calculate cumulative tracking matrices
             const studentScoresMap = {};
 
             unitFiltered.forEach(rec => {
@@ -899,7 +953,6 @@
                 }
             });
 
-            // Convert map to sortable arrays
             const rankedArr = Object.values(studentScoresMap).map(student => {
                 let cumulativeTotal = 0;
                 for (let key in student.quizzesTracked) {
@@ -913,7 +966,6 @@
                 };
             });
 
-            // Local storage fallback injector
             if (studentProfile.class && !rankedArr.find(s => s.class === studentProfile.class && s.name === studentProfile.name)) {
                 let localCumulative = 0;
                 for (let k = 0; k < localStorage.length; k++) {
@@ -960,7 +1012,7 @@
             return copied;
         }
 
-        // --- VISUAL EFFECT FRAMEWORKS ---
+        // --- CONFETTI ENGINE ---
         const canvas = document.getElementById('confetti-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
